@@ -1,26 +1,40 @@
 {
-  "name"           : "transparency",
-  "version"        : "0.5.1",
-  "description"    : "Transparency is a minimal template engine for browsers. It maps JSON objects to DOM elements with zero configuration.",
-  "homepage"       : "https://github.com/leonidas/transparency",
-  "repository"     : {"type": "git",
-                      "url" : "https://github.com/leonidas/transparency.git"},
-  "keywords"       : ["template", "templating", "engine", "unobtrusive", "semantic"],
-  "author"         : "Jarno Keskikangas <jarno.keskikangas@leonidasoy.fi>",
-  "contributors"   : ["Janne Hietamäki <janne.hietamaki@leonidasoy.fi>",
-                     "Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>",
-                     "Toni Jyrkinen <toni.jyrkinen@leonidasoy.fi>",
-                     "Antti Tarvainen <antti.tarvainen@leonidasoy.fi>",
-                     "Tomi Laine <tomi.laine@leonidasoy.fi>",
-                     "Mikko Ohtamaa <mikko@opensourcehacker.com>"
-                     ],
-  "licenses"       : ["MIT"],
-  "dependencies"   : {"jsdom"        : ">=0.2.10"},
-  "devDependencies": {"jasmine-node" : ">=1.0.x",
-                      "coffee-script": ">=1.2.x",
-                      "jquery"       : ">=1.6.x",
-                      "uglify-js"    : ">=1.2.5"},
-  "scripts"        : {"test": "jasmine-node --coffee spec",
-                      "perf": "node spec/perf.js",
-                      "pre-publish": "cake build"}
+  "name"           :  "fill",
+  "version"        :  "0.1.0",
+  "description"    :  "Fill is a minimal template engine for browsers. It maps JSON objects to DOM elements with zero configuration.",
+  "homepage"       :  "https://github.com/profit-strategies/fill",
+  "repository"     :  {
+                         "type": "git",
+                         "url" : "https://github.com/profit-strategies/fill.git"
+                      },
+  "keywords"       :  [
+                         "template",
+                         "templating",
+                         "engine",
+                         "unobtrusive",
+                         "semantic"
+                      ],
+  "author"         :  "Matt Smith <matts@profitstrategies.net>",
+  "contributors"   :  [
+                         "Jarno Keskikangas <jarno.keskikangas@leonidasoy.fi>" ,
+                         "Janne Hietamäki <janne.hietamaki@leonidasoy.fi>",
+                         "Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>",
+                         "Toni Jyrkinen <toni.jyrkinen@leonidasoy.fi>",
+                         "Antti Tarvainen <antti.tarvainen@leonidasoy.fi>",
+                         "Tomi Laine <tomi.laine@leonidasoy.fi>",
+                         "Mikko Ohtamaa <mikko@opensourcehacker.com>"
+                      ],
+  "licenses"       :  ["MIT"],
+  "dependencies"   :  {
+                         "jsdom"        : ">=0.2.10"
+                      },
+  "devDependencies":  {
+                         "jasmine-node" : ">=1.0.x",
+                         "jquery"       : ">=1.6.x",
+                         "uglify-js"    : ">=1.2.5"
+                      },
+  "scripts"        :  {
+                         "test": "jasmine-node spec",
+                         "pre-publish": "node build"
+                      }
 }

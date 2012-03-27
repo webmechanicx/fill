@@ -436,7 +436,6 @@ Install dependencies:
 
     npm install
     npm install -g uglify-js
-    npm install -g coffee-script
 
 Run tests
 
@@ -444,11 +443,11 @@ Run tests
 
 Run tests during development for more verbose assertion output
 
-    node_modules/jasmine-node/bin/jasmine-node --coffee --verbose spec
+    node_modules/jasmine-node/bin/jasmine-node --verbose spec
 
 Generate Javascript libs
 
-    cake build
+    node build
 
 ## Contributing
 

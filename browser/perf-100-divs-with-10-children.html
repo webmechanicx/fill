@@ -6,7 +6,6 @@
     <script src="lib/weld.js"></script>
     <script src="lib/handlebars-1.0.0.beta.6.js"></script>
     <script src="lib/jquery-1.7.1.min.js"></script>
-    <script src="lib/coffee-script.js"></script>
     <script src="../lib/transparency.js"></script>
   </head>
   <body>
@@ -36,37 +35,53 @@
 </div>
 {{/each}}
 </script>
-<script type="text/coffeescript">
+<script>
 
-children        = ['10000000', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-sharedVariables = (title: "AFASDF", children: children for n in [1..100])
+var children;
+var foobar;
+var handlebarsOutput;
+var handlebarsTemplate;
+var n;
+var results;
+var sharedVariables;
+var transparencyTemplate;
 
-# For handlebars
-foobar = foobar: sharedVariables
+children = ['10000000', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-results              = $("#results")
-transparencyTemplate = $("#transparency")[0]
-handlebarsOutput     = $("#handlebars")[0]
-handlebarsTemplate   = Handlebars.compile($("#handlebars-template").text())
+sharedVariables = (function() {
+  var _results;
+  _results = [];
+  for (n = 1; n <= 100; n++) {
+    _results.push({
+      title: "AFASDF",
+      children: children
+    });
+  }
+  return _results;
+})();
 
-Transparency.render transparencyTemplate, sharedVariables
-handlebarsOutput.innerHTML = handlebarsTemplate foobar
+foobar = {
+  foobar: sharedVariables
+};
 
-new Benchmark.Suite()
-  .add("transparency", ->
-    Transparency.render transparencyTemplate, sharedVariables)
+results              = $("#results");
+transparencyTemplate = $("#transparency")[0];
+handlebarsOutput     = $("#handlebars")[0];
+handlebarsTemplate   = Handlebars.compile($("#handlebars-template").text());
 
-  .add("handlebars", ->
-    handlebarsOutput.innerHTML = handlebarsTemplate foobar)
+Transparency.render(transparencyTemplate, sharedVariables);
+handlebarsOutput.innerHTML = handlebarsTemplate(foobar);
 
-  .on("cycle", (event, bench) ->
-    console.log String(bench)
-    results.append String(bench) + '\n')
-
-  .on("complete", ->
-    results.append "Fastest is " + @filter("fastest").pluck("name"))
-
-  .run true
+new Benchmark.Suite().add("transparency", function() {
+  return Transparency.render(transparencyTemplate, sharedVariables);
+}).add("handlebars", function() {
+  return handlebarsOutput.innerHTML = handlebarsTemplate(foobar);
+}).on("cycle", function(event, bench) {
+  console.log(String(bench));
+  return results.append(String(bench) + '\n');
+}).on("complete", function() {
+  return results.append("Fastest is " + this.filter("fastest").pluck("name"));
+}).run(true);
 
 </script>
 </body>

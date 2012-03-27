@@ -3,7 +3,6 @@
   <head>
     <title>Chat (a.k.a infinite feed)</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/coffee-script.js"></script>
     <script src="js/jquery-1.7.1.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="../../lib/transparency.min.js"></script>
@@ -23,18 +22,22 @@
       </div>
     </div>
 
-    <script type="text/coffeescript">
-      $(document).ready ->
-        # Get the template and remove it from DOM, as we are rendering to a separate location
-        template = $('#templates .message').detach()
-        messages = $('#messages')
-        input    = $('input[name="message"]')
+    <script>
+      $(document).ready(function() {
+        var template = $('#templates .message').detach();
+        var messages = $('#messages');
+        var input = $('input[name="message"]');
 
-        $('#send-message').submit (event) ->
-          event.preventDefault()
-          message = template.render text: input.val()
-          messages.prepend message.clone()
-          input.val ""
+        return $('#send-message').submit(function(event) {
+          var message;
+          event.preventDefault();
+          message = template.render({
+            text: input.val()
+          });
+          messages.prepend(message.clone());
+          return input.val("");
+        });
+      });
     </script>
   </body>
 </html>

@@ -6,7 +6,6 @@
     <script src="lib/weld.js"></script>
     <script src="lib/handlebars-1.0.0.beta.6.js"></script>
     <script src="lib/jquery-1.7.1.min.js"></script>
-    <script src="lib/coffee-script.js"></script>
     <script src="../lib/transparency.js"></script>
   </head>
   <body>
@@ -26,34 +25,49 @@
 <span>{{title}}</span>
 {{/each}}
 </script>
-<script type="text/coffeescript">
+<script>
 
-sharedVariables = ({title: n} for n in [1..100])
+var foobar;
+var handlebarsOutput;
+var handlebarsTemplate;
+var n;
+var results;
+var sharedVariables;
+var transparencyTemplate;
 
-# For handlebars
-foobar = foobar: sharedVariables
+sharedVariables = (function() {
+  var _results;
+  _results = [];
+  for (n = 1; n <= 100; n++) {
+    _results.push({
+      title: n
+    });
+  }
+  return _results;
+})();
 
-results              = $("#results")
-transparencyTemplate = $("#transparency")[0]
+foobar = {
+  foobar: sharedVariables
+};
 
-handlebarsOutput     = $("#handlebars")[0]
-handlebarsTemplate   = Handlebars.compile($("#handlebars-template").text())
+results = $("#results");
 
-new Benchmark.Suite()
-  .add("transparency", ->
-    Transparency.render transparencyTemplate, sharedVariables)
+transparencyTemplate = $("#transparency")[0];
 
-  .add("handlebars", ->
-    handlebarsOutput.innerHTML = handlebarsTemplate foobar)
+handlebarsOutput = $("#handlebars")[0];
 
-  .on("cycle", (event, bench) ->
-    console.log String(bench)
-    results.append  String(bench) + '\n')
+handlebarsTemplate = Handlebars.compile($("#handlebars-template").text());
 
-  .on("complete", ->
-    results.append "Fastest is " + @filter("fastest").pluck("name"))
-
-  .run true
+new Benchmark.Suite().add("transparency", function() {
+  return Transparency.render(transparencyTemplate, sharedVariables);
+}).add("handlebars", function() {
+  return handlebarsOutput.innerHTML = handlebarsTemplate(foobar);
+}).on("cycle", function(event, bench) {
+  console.log(String(bench));
+  return results.append(String(bench) + '\n');
+}).on("complete", function() {
+  return results.append("Fastest is " + this.filter("fastest").pluck("name"));
+}).run(true);
 
 
 </script>

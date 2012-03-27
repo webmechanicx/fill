@@ -3,9 +3,8 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-      "coffee-script": ">= 1.2.0",
       "express":       "2.5.5",
       "jquery":        ">= 1.6.3",
       "transparency":  ">= 0.2.0"},
-    "scripts": {"start": "coffee app.coffee"}
+    "scripts": {"start": "node app"}
 }
