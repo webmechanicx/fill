@@ -1,13 +1,13 @@
 (function() {
-  var Fill;
+  var fill;
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    Fill = require('../src/fill');
+    fill = require('../src/fill');
   }
 
-  describe("Fill", function() {
-    it("should render values to form inputs and textarea elements", function() {
+  describe("fill", function() {
+    it("should fill values in form inputs and textarea elements", function() {
       var data, doc, expected;
       doc = document.createElement('form');
       doc.innerHTML = '<input name="name" type="text" />\
@@ -22,10 +22,10 @@
       expected.innerHTML = '<input name="name" type="text" value="John"/>\
       <input name="job" type="text" value="Milkman"/>\
       <textarea name="resume">Jack of all trades</textarea>';
-      Fill.render(doc, data);
+      fill(doc, data);
       return expect(doc.innerHTML).htmlToBeEqual(expected.innerHTML);
     });
-    return it("should render values to option elements", function() {
+    return it("should fill values in option elements", function() {
       var data, directives, doc, expected;
       doc = document.createElement('form');
       doc.innerHTML = '\
@@ -62,7 +62,7 @@
           <option class="state" value="3">Arizona</option>\
         </select>\
       </form>');
-      Fill.render(doc, data, directives);
+      fill(doc, data, directives);
       return expect(doc.innerHTML).htmlToBeEqual(expected.html());
     });
   });

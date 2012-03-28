@@ -2,10 +2,9 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     xit("should provide reference to original data", function() {
       var data, doc, person;
       doc = jQuery('<div>\
@@ -18,7 +17,7 @@
         name: 'Jasmine Taylor',
         email: 'jasmine.tailor@example.com'
       };
-      doc.find('.person').render(person);
+      doc.find('.person').fill(person);
       data = doc.find('.name').data('data');
       return expect(data).toEqual(person);
     });
@@ -34,7 +33,7 @@
         name: 'Jasmine Taylor',
         email: 'jasmine.tailor@example.com'
       };
-      doc.find('.person').render(person);
+      doc.find('.person').fill(person);
       data = doc.find('.person .name').data('data');
       data.name = 'Frank Sinatra';
       return expect(data.name).toEqual(person.name);

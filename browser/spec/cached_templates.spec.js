@@ -2,10 +2,9 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     return it("cache templates", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -37,8 +36,8 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

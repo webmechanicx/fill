@@ -1,7 +1,7 @@
 {
   "name"           :  "fill",
   "version"        :  "0.1.0",
-  "description"    :  "Fill is a minimal template engine for browsers. It maps JSON objects to DOM elements with zero configuration.",
+  "description"    :  "Anti-Templating: Stuff data into plain HTML. No crappy markup: {{gross}}, <%=bleh%>",
   "homepage"       :  "https://github.com/profit-strategies/fill",
   "repository"     :  {
                          "type": "git",

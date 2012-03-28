@@ -31,7 +31,7 @@
         var tasks = $('#tasks');
 
         tasks.on('update', function() {
-          tasks.render(data);
+          tasks.fill(data);
         });
 
         $('#add-task').submit(function(event) {

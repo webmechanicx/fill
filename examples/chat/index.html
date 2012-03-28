@@ -31,7 +31,7 @@
         return $('#send-message').submit(function(event) {
           var message;
           event.preventDefault();
-          message = template.render({
+          message = template.fill({
             text: input.val()
           });
           messages.prepend(message.clone());

@@ -2,10 +2,9 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    window.Fill = require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     it("should calculate values with directives", function() {
       var directives, doc, expected, person;
       doc = jQuery('<div>\
@@ -29,10 +28,10 @@
           <span class="email">jasmine.tailor@example.com</span>\
         </div>\
       </div>');
-      doc.find('.person').render(person, directives);
+      doc.find('.person').fill(person, directives);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
-    it("should render html content with directives", function() {
+    it("should fill html content with directives", function() {
       var directives, doc, expected, person;
       doc = jQuery('<div>\
         <div class="person">\
@@ -57,11 +56,11 @@
           <span class="email">jasmine.tailor@example.com</span>\
         </div>\
       </div>');
-      doc.find('.person').render({
+      doc.find('.person').fill({
         firstname: "Hello",
         lastname: "David"
       }, directives);
-      doc.find('.person').render(person, directives);
+      doc.find('.person').fill(person, directives);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should handle nested directives", function() {
@@ -119,7 +118,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.person').render(person, directives);
+      doc.find('.person').fill(person, directives);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     return it("should restore the original attributes", function() {
@@ -152,8 +151,8 @@
           <li class="person even">others</li>\
         </ul>\
       </div>');
-      doc.find('#persons').render(persons, directives);
-      doc.find('#persons').render(persons, directives);
+      doc.find('#persons').fill(persons, directives);
+      doc.find('#persons').fill(persons, directives);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

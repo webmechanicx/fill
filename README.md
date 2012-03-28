@@ -1,6 +1,6 @@
 # Synopsis 
 
-fill is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.render(data)`.
+fill is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.fill(data)`.
 
 ```html
 <div id="template">
@@ -14,7 +14,7 @@ var hello = {
   name:     'world!'
 };
 
-$('#template').render(hello);
+$('#template').fill(hello);
 ```
 ```html
 <div id="template">
@@ -84,10 +84,10 @@ var hello = {
 };
 
 // with jQuery
-$('#container').render(hello);
+$('#container').fill(hello);
 
 // ..or without
-fill.render(document.getElementById('container'), hello);
+fill(document.getElementById('container'), hello);
 ```
 
 Result:
@@ -121,10 +121,10 @@ var activities = [
   {activity: 'Sky Diving'},
 ];
 
-$('#activities').render(activities);
+$('#activities').fill(activities);
 
 // or
-fill.render(document.getElementById('activities'), activities);
+fill(document.getElementById('activities'), activities);
 ```
 
 Result:
@@ -154,7 +154,7 @@ Javascript:
 ```js
 var comments = ["That rules", "Great post!"]
 
-$('.comments').render(comments);
+$('.comments').fill(comments);
 ```
 
 Result:
@@ -185,7 +185,7 @@ Javascript:
 ```js
 var comments = ["That rules", "Great post!"]
 
-$('.comments').render(comments);
+$('.comments').fill(comments);
 ```
 
 Result:
@@ -232,7 +232,7 @@ var post = {
   ]
 };
 
-$('.container').render(post);
+$('.container').fill(post);
 ```
 
 Result:
@@ -282,7 +282,7 @@ var person = {
   }
 };
 
-$('.person').render(person);
+$('.person').fill(person);
 ```
 
 Result:
@@ -334,7 +334,7 @@ directives =
   email: function(element, index) { return {href: "mailto:" + this.email}; }
 };
 
-$('.person').render(person, directives);
+$('.person').fill(person, directives);
 ```
 
 Result:
@@ -391,7 +391,7 @@ directives = {
   }
 };
 
-$('.person').render(person, directives);
+$('.person').fill(person, directives);
 ```
 
 Result:

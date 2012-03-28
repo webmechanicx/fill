@@ -3,10 +3,9 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     it("should handle list of objects", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -33,7 +32,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.comments').render(data);
+      doc.find('.comments').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
       expect(doc.find('.comment').get(0).fill.model).toEqual(data[0]);
       return expectModelObjects(doc.find('.comment'), data);
@@ -53,10 +52,10 @@
         <div class="comments">\
         </div>\
       </div>');
-      doc.find('.comments').render(data);
+      doc.find('.comments').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
-    it("should render list containing simple values", function() {
+    it("should fill list with simple values", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
         <div class="comments">\
@@ -70,7 +69,7 @@
           <span>That rules</span><label>blah</label><span>Great post!</span><label>blah</label>\
         </div>\
       </div>');
-      doc.find('.comments').render(data);
+      doc.find('.comments').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
       return expectModelObjects(doc.find('span'), data);
     });
@@ -88,7 +87,7 @@
           <label>comment</label><span class="listElement">Great post!</span>\
         </div>\
       </div>');
-      doc.find('.comments').render(data);
+      doc.find('.comments').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
       return expectModelObjects(doc.find('.listElement'), data);
     });
@@ -103,7 +102,7 @@
         <div class="comments">\
         </div>\
       </div>');
-      doc.find('.comments').render(data);
+      doc.find('.comments').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     return it("should match table rows to the number of model objects", function() {
@@ -117,7 +116,7 @@
           </tbody>\
         </table>\
       </div>');
-      doc.find("tbody.users").render([
+      doc.find("tbody.users").fill([
         {
           username: 'user1'
         }, {
@@ -137,7 +136,7 @@
           </tbody>\
         </table>\
       </div>').html());
-      doc.find("tbody.users").render([
+      doc.find("tbody.users").fill([
         {
           username: 'user1'
         }
@@ -152,7 +151,7 @@
           </tbody>\
         </table>\
       </div>').html());
-      doc.find("tbody.users").render([
+      doc.find("tbody.users").fill([
         {
           username: 'user1'
         }, {
@@ -172,7 +171,7 @@
           </tbody>\
         </table>\
       </div>').html());
-      doc.find("tbody.users").render([
+      doc.find("tbody.users").fill([
         {
           username: 'user4'
         }, {

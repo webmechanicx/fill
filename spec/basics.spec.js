@@ -1,12 +1,10 @@
 (function() {
-  var Fill;
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    Fill = require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     it("should ignore null context", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -16,7 +14,7 @@
       };
       expected = jQuery('<div>\
       </div>');
-      window.Fill.render(doc.find('.container').get(0), data);
+      window.fill(doc.find('.container').get(0), data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should work with null data", function() {
@@ -32,7 +30,7 @@
         <div class="container">\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
       data = {
         hello: 'Hello'
@@ -43,7 +41,7 @@
           <div class="goodbye"></div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should work with null values", function() {
@@ -64,7 +62,7 @@
           <div class="goodbye"></div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should assing data values to template via CSS", function() {
@@ -85,7 +83,7 @@
           <div class="goodbye">Goodbye!</div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should handle nested templates", function() {
@@ -109,7 +107,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should work with numeric values", function() {
@@ -130,7 +128,7 @@
           <div class="goodbye">5</div>\
         </div>\
       </div>');
-      res = doc.find('.container').render(data);
+      res = doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should match by element id, class, name and data-bind", function() {
@@ -157,7 +155,7 @@
           <div data-bind="my-data">data-bind</div>\
         </div>\
       </div>');
-      res = doc.find('.container').render(data);
+      res = doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     return it("should ignore functions in objects", function() {
@@ -183,7 +181,7 @@
           <div class="skipped"></div>\
         </div>\
       </div>');
-      res = doc.find('.container').render(data);
+      res = doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

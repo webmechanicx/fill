@@ -2,10 +2,9 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/fill');
   }
 
-  describe("Fill", function() {
+  describe("fill", function() {
     it("should handle nested lists", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -49,7 +48,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should handle nested lists with overlapping attributes", function() {
@@ -81,7 +80,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should handle nested objects", function() {
@@ -115,7 +114,7 @@
           </div>\
         </div>\
       </div>');
-      doc.find('.container').render(data);
+      doc.find('.container').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     return it("should handle tables with dynamic headers", function() {
@@ -286,7 +285,7 @@
           </tbody>\
         </table>\
       </div>');
-      doc.find('.test_reports').render(data, directives);
+      doc.find('.test_reports').fill(data, directives);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

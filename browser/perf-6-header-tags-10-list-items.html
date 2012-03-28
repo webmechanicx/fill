@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fill perf test</title>
+    <title>fill perf test</title>
     <script src="lib/benchmark.js"></script>
     <script src="lib/weld.js"></script>
     <script src="lib/handlebars-1.0.0.beta.6.js"></script>
@@ -13,7 +13,7 @@
       <pre id="result"></pre>
     </div>
 
-    <h4>Fill</h4>
+    <h4>fill</h4>
     <div id="fill">
       <h1 class='header'></h1>
       <h2 class='header2'></h2>
@@ -55,7 +55,7 @@ handlebarsOutput     = $("#handlebars")[0];
 handlebarsTemplate = Handlebars.compile("<div><h1 class='header'>{{header}}</h1><h2 class='header2'>{{header2}}</h2><h3 class='header3'>{{header3}}</h3><h4 class='header4'>{{header4}}</h4><h5 class='header5'>{{header5}}</h5><h6 class='header6'>{{header6}}</h6><ul class='list'>{{#list}}<li class='item'>{{this}}</li>{{/list}}</ul></div>");
 
 new Benchmark.Suite().add("fill", function() {
-  return Fill.render(fillTemplate, sharedVariables);
+  return fill(fillTemplate, sharedVariables);
 }).add("handlebars", function() {
   return handlebarsOutput.innerHTML = handlebarsTemplate(sharedVariables);
 }).on("cycle", function(event, bench) {

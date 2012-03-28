@@ -5,29 +5,14 @@
   var setHtml;
   var setText;
 
-  var Fill = this.Fill = {};
-
   // helper method to detect arrays, silly javascript
   var _isArray = function(obj) {
     return Object.prototype.toString.call(obj) === '[object Array]';
   };
 
-  // add the render method to jQuery if it exists
-  if (typeof jQuery !== "undefined" && jQuery !== null) {
-    jQuery.fn.render = function(models, directives) {
-      Fill.render(this.get(), models, directives);
-      return this;
-    };
-  }
 
-  // export Fill, if this is an environment that supports modules
-  if (typeof module !== "undefined" && module !== null) {
-    module.exports = Fill;
-  }
-
-
-  // this is the entry point for this module, to render the data into the dom
-  Fill.render = function(contexts, models, directives) {
+  // this is the entry point for this module, to fill the data into the dom
+  function fill(contexts, models, directives) {
     var context;
     var instance;
     var model;
@@ -78,9 +63,9 @@
           instance.elements[j].fill.model = model;
         }
 
-        renderValues(instance, model);
-        renderDirectives(instance, model, directives, i);
-        renderChildren(instance, model, directives);
+        fillValues(instance, model);
+        fillDirectives(instance, model, directives, i);
+        fillChildren(instance, model, directives);
       }
 
       // put the conext element back to it's original place in the dom
@@ -91,7 +76,7 @@
       }
     }
     return contexts;
-  };
+  }
 
 
   function prepareContext(context, models) {
@@ -152,10 +137,10 @@
       }
     }
 
-  };
+  }
 
 
-  function renderValues(instance, model) {
+  function fillValues(instance, model) {
     var key;
     var value;
     var element;
@@ -175,10 +160,10 @@
       element = matchingElements(instance, 'listElement')[0] || instance.elements[0];
       if (element) setText(element, model);
     }
-  };
+  }
 
 
-  function renderDirectives(instance, model, directives, index) {
+  function fillDirectives(instance, model, directives, index) {
     var attr;
     var directive;
     var fn;
@@ -220,10 +205,10 @@
         }
       }
     }
-  };
+  }
 
 
-  function renderChildren(instance, model, directives) {
+  function fillChildren(instance, model, directives) {
     var key;
     var value;
     var elements;
@@ -235,10 +220,10 @@
 
       elements = matchingElements(instance, key);
       for (var i = 0; i < elements.length; i += 1) {
-        Fill.render(elements[i], value, directives[key]);
+        fill(elements[i], value, directives[key]);
       }
     }
-  };
+  }
 
 
   // function factory for creating setHtml and setText functions
@@ -277,7 +262,7 @@
         element.appendChild(element.fill.children[i]);
       }
     }
-  };
+  }
 
 
   setHtml = setContent(function(element, html) {
@@ -312,7 +297,7 @@
     }
 
     return instance.queryCache[key];
-  };
+  }
 
 
   function elementNodes(template) {
@@ -353,6 +338,25 @@
       element.getAttribute('data-bind') === key
     );
   }
+
+
+  // add the fill method to jQuery if it exists
+  if (typeof jQuery !== "undefined" && jQuery !== null) {
+    jQuery.fn.fill = function(models, directives) {
+      fill(this.get(), models, directives);
+      return this;
+    };
+  }
+
+
+  // export fill, if this is an environment that supports modules
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = fill;
+  }
+
+
+  // attach fill to current context (in the browser this will be window.fill)
+  this.fill = fill;
 
 
 }).call(this);

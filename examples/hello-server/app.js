@@ -19,7 +19,7 @@ app.configure("development", function() {
 
 app.get("/", function(req, res) {
   var template = $('<div><h1 class="title"></h1></div>');
-  var result = template.render({
+  var result = template.fill({
     title: "Hello world!"
   });
   res.send(result.html());

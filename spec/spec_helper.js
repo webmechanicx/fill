@@ -7,6 +7,7 @@
     global.window = document.createWindow();
     jsdom = require('jsdom');
     global.jQuery = require('jquery');
+    global.window.fill = require('../src/fill');
   }
 
   beforeEach(function() {
