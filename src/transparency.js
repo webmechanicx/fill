@@ -1,6 +1,18 @@
 (function() {
-  var ELEMENT_NODE, Transparency, elementMatcher, elementNodes, matchingElements, prepareContext, renderChildren, renderDirectives, renderValues, setContent, setHtml, setText, _base;
 
+  var ELEMENT_NODE = 1;
+
+  var setHtml;
+  var setText;
+
+  var Transparency = this.Transparency = {};
+
+  // helper method to detect arrays, silly javascript
+  var _isArray = function(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+  };
+
+  // add the render method to jQuery if it exists
   if (typeof jQuery !== "undefined" && jQuery !== null) {
     jQuery.fn.render = function(models, directives) {
       Transparency.render(this.get(), models, directives);
@@ -8,45 +20,70 @@
     };
   }
 
-  this.Transparency = Transparency = {};
-
+  // export Transparency, if this is an environment that supports modules
   if (typeof module !== "undefined" && module !== null) {
     module.exports = Transparency;
   }
 
+
+  // this is the entry point for this module, to render the data into the dom
   Transparency.render = function(contexts, models, directives) {
-    var c, context, e, index, instance, model, parent, sibling, _i, _j, _len, _len2, _len3, _ref;
+    var context;
+    var instance;
+    var model;
+    var parent;
+    var sibling;
+    var temp;
+
     if (!contexts) return;
+
+    // assign default values
     models || (models = []);
     directives || (directives = {});
-    contexts = (contexts.length != null) && contexts[0] ? (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = contexts.length; _i < _len; _i++) {
-        c = contexts[_i];
-        _results.push(c);
+
+    // turn jQuery results into a real boy...or perhaps, a real array
+    // note: don't use _isArray in case it is a jQuery node list
+    if (contexts.length != null && contexts[0]) {
+      temp = [];
+      for (i = 0; i < contexts.length; i += 1) {
+        temp.push(contexts[0]);
       }
-      return _results;
-    })() : [contexts];
-    if (!Array.isArray(models)) models = [models];
-    for (_i = 0, _len = contexts.length; _i < _len; _i++) {
-      context = contexts[_i];
+      contexts = temp;
+    } else {
+      contexts = [contexts];
+    }
+
+    // wrap the models in an array for interating over them
+    if (!_isArray(models)) models = [models];
+
+    for (var i = 0; i < contexts.length; i += 1) {
+      context = contexts[i];
+
+      // save the original position for reattching it later
       sibling = context.nextSibling;
       parent = context.parentNode;
+
+      // dom manipulation is a lot faster when elements are detached
       if (parent != null) parent.removeChild(context);
+
+      // make sure we have the correct amount of template instances available
       prepareContext(context, models);
-      for (index = 0, _len2 = models.length; index < _len2; index++) {
-        model = models[index];
-        instance = context.transparency.instances[index];
-        _ref = instance.elements;
-        for (_j = 0, _len3 = _ref.length; _j < _len3; _j++) {
-          e = _ref[_j];
-          e.transparency.model = model;
+
+      for (var i = 0; i < models.length; i += 1) {
+        model = models[i];
+        instance = context.transparency.instances[i];
+
+        // associate model with instance elements
+        for (var j = 0; j < instance.elements.length; j += 1) {
+          instance.elements[j].transparency.model = model;
         }
+
         renderValues(instance, model);
-        renderDirectives(instance, model, directives, index);
+        renderDirectives(instance, model, directives, i);
         renderChildren(instance, model, directives);
       }
+
+      // put the conext element back to it's original place in the dom
       if (sibling) {
         if (parent != null) parent.insertBefore(context, sibling);
       } else {
@@ -56,260 +93,266 @@
     return contexts;
   };
 
-  prepareContext = function(context, models) {
-    var attr, e, instance, n, template, value, _base, _base2, _base3, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _results;
-    context.transparency || (context.transparency = {});
-    (_base = context.transparency).template || (_base.template = ((function() {
-      var _results;
-      _results = [];
+
+  function prepareContext(context, models) {
+    var element;
+    var instance;
+    var template;
+
+    // extend context element to store template elements and cached instances
+    if (!context.transparency) context.transparency = {};
+    if (!context.transparency.template) {
+      context.transparency.template = [];
       while (context.firstChild) {
-        _results.push(context.removeChild(context.firstChild));
+        context.transparency.template.push(context.removeChild(context.firstChild));
       }
-      return _results;
-    })()));
-    (_base2 = context.transparency).templateCache || (_base2.templateCache = []);
-    (_base3 = context.transparency).instances || (_base3.instances = []);
+    }
+    if (!context.transparency.templateCache) context.transparency.templateCache = [];
+    if (!context.transparency.instances) context.transparency.instances = [];
+
+    // get templates from the cache or clone new ones if the cache is empty
     while (models.length > context.transparency.instances.length) {
+      template = [];
+      for (var i = 0; i < context.transparency.template.length; i += 1) {
+        element = context.transparency.template[i].cloneNode(true);
+        template.push(element);
+      }
+
       instance = context.transparency.templateCache.pop() || {
-        queryCache: {},
-        template: (template = (function() {
-          var _i, _len, _ref, _results;
-          _ref = context.transparency.template;
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            n = _ref[_i];
-            _results.push(n.cloneNode(true));
-          }
-          return _results;
-        })()),
-        elements: elementNodes(template)
+        queryCache:  {},
+        template:    template,
+        elements:    elementNodes(template)
       };
-      _ref = instance.template;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        n = _ref[_i];
-        context.appendChild(n);
+
+      for (var i = 0; i < instance.template.length; i += 1) {
+        context.appendChild(instance.template[i]);
       }
       context.transparency.instances.push(instance);
     }
+
+    // remove leftover templates from dom and save them to cache for later
     while (models.length < context.transparency.instances.length) {
-      context.transparency.templateCache.push(instance = context.transparency.instances.pop());
-      _ref2 = instance.template;
-      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-        n = _ref2[_j];
-        n.parentNode.removeChild(n);
+      instance = context.transparency.instances.pop();
+      context.transparency.templateCache.push(instance);
+
+      for (var i = 0; i < instance.template.length; i += 1) {
+        template = instance.template[i];
+        template.parentNode.removeChild(template);
       }
     }
-    _ref3 = context.transparency.instances;
-    _results = [];
-    for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
-      instance = _ref3[_k];
-      _results.push((function() {
-        var _l, _len4, _ref4, _results2;
-        _ref4 = instance.elements;
-        _results2 = [];
-        for (_l = 0, _len4 = _ref4.length; _l < _len4; _l++) {
-          e = _ref4[_l];
-          _results2.push((function() {
-            var _ref5, _results3;
-            _ref5 = e.transparency.attributes;
-            _results3 = [];
-            for (attr in _ref5) {
-              value = _ref5[attr];
-              _results3.push(e.setAttribute(attr, value));
-            }
-            return _results3;
-          })());
+
+    // return the original attribute values
+    for (var i = 0; i < context.transparency.instances.length; i += 1) {
+      instance = context.transparency.instances[i];
+      for (var j = 0; j < instance.elements.length; j += 1) {
+        element = instance.elements[j];
+        for (var prop in element.transparency.attributes){
+          element.setAttribute(prop, element.transparency.attributes[prop]);
         }
-        return _results2;
-      })());
+      }
     }
-    return _results;
+
   };
 
-  renderValues = function(instance, model) {
-    var element, key, value, _results;
+
+  function renderValues(instance, model) {
+    var key;
+    var value;
+    var element;
+    var elements;
+
     if (typeof model === 'object') {
-      _results = [];
       for (key in model) {
         value = model[key];
         if (typeof value !== 'object' && typeof value !== 'function') {
-          _results.push((function() {
-            var _i, _len, _ref, _results2;
-            _ref = matchingElements(instance, key);
-            _results2 = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              element = _ref[_i];
-              _results2.push(setText(element, value));
-            }
-            return _results2;
-          })());
+          elements = matchingElements(instance, key);
+          for (var i = 0; i < elements.length; i += 1) {
+            setText(elements[i], value);
+          }
         }
       }
-      return _results;
     } else {
       element = matchingElements(instance, 'listElement')[0] || instance.elements[0];
-      if (element) return setText(element, model);
+      if (element) setText(element, model);
     }
   };
 
-  renderDirectives = function(instance, model, directives, index) {
-    var attr, directive, directiveFunction, element, key, value, _results;
-    _results = [];
-    for (key in directives) {
-      directiveFunction = directives[key];
-      if (typeof directiveFunction === 'function') {
-        _results.push((function() {
-          var _i, _len, _ref, _results2;
-          _ref = matchingElements(instance, key);
-          _results2 = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            element = _ref[_i];
-            directive = directiveFunction.call(model, element, index);
-            if (typeof directive === 'string') {
-              directive = {
-                text: directive
-              };
-            }
-            setText(element, directive.text);
-            setHtml(element, directive.html);
-            _results2.push((function() {
-              var _base, _base2, _results3;
-              _results3 = [];
-              for (attr in directive) {
-                value = directive[attr];
-                if (!(attr !== 'html' && attr !== 'text')) continue;
-                (_base = element.transparency).attributes || (_base.attributes = {});
-                (_base2 = element.transparency.attributes)[attr] || (_base2[attr] = element.getAttribute(attr));
-                _results3.push(element.setAttribute(attr, value));
-              }
-              return _results3;
-            })());
-          }
-          return _results2;
-        })());
+
+  function renderDirectives(instance, model, directives, index) {
+    var attr;
+    var directive;
+    var fn;
+    var element;
+    var elements;
+    var value;
+
+    for (var key in directives) {
+      fn = directives[key];
+
+      // skip any that are not functions
+      if (typeof fn !== 'function') continue;
+
+      elements = matchingElements(instance, key);
+      for (var i = 0; i < elements.length; i += 1) {
+        element = elements[i];
+        directive = fn.call(model, element, index);
+
+        // if the directive function returns a string, wrap it in an object
+        if (typeof directive === 'string') {
+          directive = { text: directive };
+        }
+
+        // set html after text because it has higher precedence
+        setText(element, directive.text);
+        setHtml(element, directive.html);
+
+        // set all other attributes
+        for (attr in directive) {
+          // text and html have already been set
+          if (attr === 'text' || attr === 'html') continue;
+
+          // Save the original attribute value for the instance reuse
+          element.transparency.attributes = element.transparency.attributes || {};
+          element.transparency.attributes[attr] = element.getAttribute(attr);
+
+          value = directive[attr];
+          element.setAttribute(attr, value);
+        }
       }
     }
-    return _results;
   };
 
-  renderChildren = function(instance, model, directives) {
-    var element, key, value, _results;
-    _results = [];
+
+  function renderChildren(instance, model, directives) {
+    var key;
+    var value;
+    var elements;
+
     for (key in model) {
       value = model[key];
-      if (typeof value === 'object') {
-        _results.push((function() {
-          var _i, _len, _ref, _results2;
-          _ref = matchingElements(instance, key);
-          _results2 = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            element = _ref[_i];
-            _results2.push(Transparency.render(element, value, directives[key]));
+
+      if (typeof value !== 'object') continue;
+
+      elements = matchingElements(instance, key);
+      for (var i = 0; i < elements.length; i += 1) {
+        Transparency.render(elements[i], value, directives[key]);
+      }
+    }
+  };
+
+
+  // function factory for creating setHtml and setText functions
+  function setContent(callback) {
+    return function(element, content) {
+      var child;
+
+      // make sure that we have an element and content to insert
+      if (!element || content == null) return;
+
+      // make sure that this hasn't already been done
+      if (element.transparency.content === content) return;
+      element.transparency.content = content;
+
+      // cache all of the child nodes
+      if (!element.transparency.children) {
+        element.transparency.children = [];
+        for (i = 0; i < element.childNodes.length; i += 1) {
+          child = element.childNodes[i];
+          if (child.nodeType === ELEMENT_NODE) {
+            element.transparency.children.push(child);
           }
-          return _results2;
-        })());
-      }
-    }
-    return _results;
-  };
-
-  setContent = function(callback) {
-    return function(e, content) {
-      var c, n, _base, _i, _len, _ref, _results;
-      if (!e || !(content != null) || e.transparency.content === content) return;
-      e.transparency.content = content;
-      (_base = e.transparency).children || (_base.children = (function() {
-        var _i, _len, _ref, _results;
-        _ref = e.childNodes;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          n = _ref[_i];
-          if (n.nodeType === ELEMENT_NODE) _results.push(n);
         }
-        return _results;
-      })());
-      while (e.firstChild) {
-        e.removeChild(e.firstChild);
       }
-      callback(e, content);
-      _ref = e.transparency.children;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        c = _ref[_i];
-        _results.push(e.appendChild(c));
+
+      // remove all of the children
+      while (element.firstChild) {
+        element.removeChild(element.firstChild);
       }
-      return _results;
-    };
-  };
 
-  setHtml = setContent(function(e, html) {
-    return e.innerHTML = html;
-  });
+      // fire the callback that was passed in to this factory
+      callback(element, content);
 
-  setText = setContent(function(e, text) {
-    if (e.nodeName.toLowerCase() === 'input') {
-      return e.setAttribute('value', text);
-    } else {
-      return e.appendChild(e.ownerDocument.createTextNode(text));
+      // reattach all the child nodes
+      for (i = 0; i < element.transparency.children.length; i += 1) {
+        element.appendChild(element.transparency.children[i]);
+      }
     }
-  });
-
-  matchingElements = function(instance, key) {
-    var e, _base;
-    return (_base = instance.queryCache)[key] || (_base[key] = (function() {
-      var _i, _len, _ref, _results;
-      _ref = instance.elements;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        e = _ref[_i];
-        if (elementMatcher(e, key)) _results.push(e);
-      }
-      return _results;
-    })());
   };
 
-  elementNodes = function(template) {
-    var child, e, elements, _i, _j, _len, _len2, _ref;
-    elements = [];
-    for (_i = 0, _len = template.length; _i < _len; _i++) {
-      e = template[_i];
-      if (!(e.nodeType === ELEMENT_NODE)) continue;
-      e.transparency || (e.transparency = {});
-      elements.push(e);
-      _ref = e.getElementsByTagName('*');
-      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-        child = _ref[_j];
-        child.transparency || (child.transparency = {});
+
+  setHtml = setContent(function(element, html) {
+    return element.innerHTML = html;
+  });
+
+
+  setText = setContent(function(element, text) {
+    // special case for input elements
+    if (element.nodeName.toLowerCase() === 'input') {
+      return element.setAttribute('value', text);
+    }
+
+    return element.appendChild(element.ownerDocument.createTextNode(text));
+  });
+
+
+  // find all of the matching elements
+  function matchingElements(instance, key) {
+    var element;
+
+    // check to see if this search has alredy been performed
+    if (!instance.queryCache[key]) {
+      // search for matching elements and cache the results
+      instance.queryCache[key] = [];
+      for (i = 0; i < instance.elements.length; i += 1) {
+        element = instance.elements[i];
+        if (elementMatcher(element, key)) {
+          instance.queryCache[key].push(element);
+        }
+      }
+    }
+
+    return instance.queryCache[key];
+  };
+
+
+  function elementNodes(template) {
+    var child;
+    var children;
+    var element;
+    var elements = [];
+
+    for (var i = 0; i < template.length; i += 1) {
+      element = template[i];
+
+      if (element.nodeType !== ELEMENT_NODE) continue;
+
+      if(!element.transparency) element.transparency = {};
+      elements.push(element);
+
+      children = element.getElementsByTagName('*');
+      for (var j = 0; j < children.length; j += 1) {
+        child = children[j];
+        if(!child.transparency) child.transparency = {};
         elements.push(child);
       }
     }
+
     return elements;
-  };
-
-  elementMatcher = function(element, key) {
-    return element.id === key || element.className.split(' ').indexOf(key) > -1 || element.name === key || element.nodeName.toLowerCase() === key.toLowerCase() || element.getAttribute('data-bind') === key;
-  };
-
-  ELEMENT_NODE = 1;
-
-  if ((_base = Array.prototype).indexOf == null) {
-    _base.indexOf = function(s) {
-      var i, index, x, _len;
-      index = -1;
-      for (i = 0, _len = this.length; i < _len; i++) {
-        x = this[i];
-        if (!(x === s)) continue;
-        index = i;
-        break;
-      }
-      return index;
-    };
   }
 
-  if (Array.isArray == null) {
-    Array.isArray = function(ob) {
-      return Object.prototype.toString.call(ob) === '[object Array]';
-    };
+
+  // match elements on id, classname, name, etc.
+  function elementMatcher(element, key) {
+    var paddedClass = ' ' + element.className + ' ';
+
+    return (
+      element.id === key                                    ||
+      paddedClass.indexOf(' ' + key + ' ') > -1             ||
+      element.name === key                                  ||
+      element.nodeName.toLowerCase() === key.toLowerCase()  ||
+      element.getAttribute('data-bind') === key
+    );
   }
+
 
 }).call(this);
