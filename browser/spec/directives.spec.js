@@ -2,10 +2,10 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    window.Transparency = require('../src/transparency');
+    window.Fill = require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     it("should calculate values with directives", function() {
       var directives, doc, expected, person;
       doc = jQuery('<div>\

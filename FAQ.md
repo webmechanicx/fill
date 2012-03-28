@@ -1,10 +1,10 @@
 # Frequently Asked Questions
 
-Here we have collected things which you might ponder to see whether Transparency would be a good solution for you. 
+Here we have collected things which you might ponder to see whether Fill would be a good solution for you. 
 
 ## Why DOM based templating
 
-There are several strong arguments for using solutions like Transparency
+There are several strong arguments for using solutions like Fill
 
 * HTML based applications already operate on DOM trees
 
@@ -12,7 +12,7 @@ There are several strong arguments for using solutions like Transparency
 
 * Operating on DOM is fast
 
-* Transparency templates validate thru HTML5 validator as the mark-up is not polluted with custom tags or directives
+* Fill templates validate thru HTML5 validator as the mark-up is not polluted with custom tags or directives
 
 * Clean and more readable code if you do not need to mix programming language tags inside HTML  
 
@@ -30,14 +30,14 @@ You might have several data models in your application, e.g.
 
 * Template model: how data is presented in the templates
 
-If your storage model, i.e. data coming from your server, does not directly match the template code you need to re-map it. Many templating solutions do this in the template language itself. With Transparency you can
+If your storage model, i.e. data coming from your server, does not directly match the template code you need to re-map it. Many templating solutions do this in the template language itself. With Fill you can
 
-* Preprocess (storage) data model and convert it to template model before feeding it to `Transparency.render()` in your Javascript code.
+* Preprocess (storage) data model and convert it to template model before feeding it to `Fill.render()` in your Javascript code.
   This is a simple operation of reading in a Javascript object and producing a new object out of it.
 
-* Use Transparency directives to hint mapping data to DOM trees and generate template data in directive functions
+* Use Fill directives to hint mapping data to DOM trees and generate template data in directive functions
 
-## Other Transparency like solutions
+## Other Fill like solutions
 
 * [Distal](http://code.google.com/p/distal/)
 
@@ -47,7 +47,7 @@ If your storage model, i.e. data coming from your server, does not directly matc
 
 * [Plates](https://github.com/flatiron/plates)
 
-## How do I create attributes with Transparency?
+## How do I create attributes with Fill?
 
 With directives.
 

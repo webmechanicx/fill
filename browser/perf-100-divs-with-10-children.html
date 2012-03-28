@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Transparency perf test</title>
+    <title>Fill perf test</title>
     <script src="lib/benchmark.js"></script>
     <script src="lib/weld.js"></script>
     <script src="lib/handlebars-1.0.0.beta.6.js"></script>
     <script src="lib/jquery-1.7.1.min.js"></script>
-    <script src="../lib/transparency.js"></script>
+    <script src="../lib/fill.js"></script>
   </head>
   <body>
     <pre id="results"></pre>
 
-    <h4>Transparency</h4>
-    <div id="transparency">
+    <h4>Fill</h4>
+    <div id="fill">
       <div class="title"></div>
       <div class="children">
         <span class="item"></span>
@@ -44,7 +44,7 @@ var handlebarsTemplate;
 var n;
 var results;
 var sharedVariables;
-var transparencyTemplate;
+var fillTemplate;
 
 children = ['10000000', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
@@ -65,15 +65,15 @@ foobar = {
 };
 
 results              = $("#results");
-transparencyTemplate = $("#transparency")[0];
+fillTemplate         = $("#fill")[0];
 handlebarsOutput     = $("#handlebars")[0];
 handlebarsTemplate   = Handlebars.compile($("#handlebars-template").text());
 
-Transparency.render(transparencyTemplate, sharedVariables);
+Fill.render(fillTemplate, sharedVariables);
 handlebarsOutput.innerHTML = handlebarsTemplate(foobar);
 
-new Benchmark.Suite().add("transparency", function() {
-  return Transparency.render(transparencyTemplate, sharedVariables);
+new Benchmark.Suite().add("fill", function() {
+  return Fill.render(fillTemplate, sharedVariables);
 }).add("handlebars", function() {
   return handlebarsOutput.innerHTML = handlebarsTemplate(foobar);
 }).on("cycle", function(event, bench) {

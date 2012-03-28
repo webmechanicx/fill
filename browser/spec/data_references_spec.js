@@ -2,10 +2,10 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/transparency');
+    require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     xit("should provide reference to original data", function() {
       var data, doc, person;
       doc = jQuery('<div>\

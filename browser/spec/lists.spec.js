@@ -3,10 +3,10 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/transparency');
+    require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     it("should handle list of objects", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -35,7 +35,7 @@
       </div>');
       doc.find('.comments').render(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
-      expect(doc.find('.comment').get(0).transparency.model).toEqual(data[0]);
+      expect(doc.find('.comment').get(0).fill.model).toEqual(data[0]);
       return expectModelObjects(doc.find('.comment'), data);
     });
     it("should handle empty lists", function() {
@@ -200,7 +200,7 @@
     _results = [];
     for (i = 0, _len = data.length; i < _len; i++) {
       object = data[i];
-      _results.push(expect(elements.get(i).transparency.model).toEqual(object));
+      _results.push(expect(elements.get(i).fill.model).toEqual(object));
     }
     return _results;
   };

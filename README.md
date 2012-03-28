@@ -1,6 +1,6 @@
 # Synopsis 
 
-Transparency is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.render(data)`.
+fill is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.render(data)`.
 
 ```html
 <div id="template">
@@ -35,28 +35,20 @@ $('#template').render(hello);
 
 (*) Take with a grain of salt, as "real-world performance" isn't that easy to define or measure. Anyway, jsperf.com
 should give an idea:  
-http://jsperf.com/transparency-vs-handlebars-finite-list/3  
-http://jsperf.com/transparency-vs-handlebars-infinite-list/3  
+http://jsperf.com/fill-vs-handlebars-finite-list/3  
+http://jsperf.com/fill-vs-handlebars-infinite-list/3  
 http://jsperf.com/dom-vs-innerhtml-based-templating/366
-
-
-If interested, see other performance tests at `browser` folder. See also 
-[Frequently asked questions](https://github.com/leonidas/transparency/wiki/Frequently-Asked-Questions).
-
-## Try it
-
-[Demo website](http://leonidas.github.com/transparency/) with interactive examples.
 
 ## Use it
 
-Install with `npm install transparency` or get the 
-[compiled and minified version](https://raw.github.com/leonidas/transparency/master/lib/transparency.min.js)
-and include it to your application. jQuery is optional, but if you happen to use it, Transparency registers itself 
+Install with `npm install fill` or get the 
+[compiled and minified version](https://raw.github.com/profit-strategies/fill/master/lib/fill.min.js)
+and include it to your application. jQuery is optional, but if you happen to use it, fill registers itself 
 as a plugin.
 
 ```html
 <script src="js/jquery-1.7.1.min.js"></script>
-<script src="js/transparency.min.js"></script>
+<script src="js/fill.min.js"></script>
 ```
 
 For server-side use, see `spec` folder and the awesome [jsdom](https://github.com/tmpvar/jsdom) for the details.
@@ -65,7 +57,7 @@ For server-side use, see `spec` folder and the awesome [jsdom](https://github.co
 
 ### Assigning values
 
-Transparency binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and 
+fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and 
 `data-bind` attribute. Values are escaped before rendering.
 
 Template:
@@ -95,7 +87,7 @@ var hello = {
 $('#container').render(hello);
 
 // ..or without
-Transparency.render(document.getElementById('container'), hello);
+fill.render(document.getElementById('container'), hello);
 ```
 
 Result:
@@ -132,7 +124,7 @@ var activities = [
 $('#activities').render(activities);
 
 // or
-Transparency.render(document.getElementById('activities'), activities);
+fill.render(document.getElementById('activities'), activities);
 ```
 
 Result:
@@ -424,9 +416,7 @@ Result:
 
 ## Getting help
 
-* [FAQ](https://github.com/leonidas/transparency/wiki/Frequently-Asked-Questions)
-* IRC: [freenode/#transparency.js](http://webchat.freenode.net/)
-* Google Groups: transparencyjs@googlegroups.com
+* [FAQ](https://github.com/profit-strategies/fill/wiki/Frequently-Asked-Questions)
 
 ## Development environment
 
@@ -457,10 +447,6 @@ All the following are appreciated, in an asceding order of preference
 2. Pull request with a failing unit test
 3. Pull request with unit tests and corresponding implementation
 
-In case the contribution is going to change Transparency API, please create a ticket first in order to discuss and
+In case the contribution is going to change fill API, please create a ticket first in order to discuss and
 agree on design.
-
-There's [an article](https://github.com/leonidas/codeblog/blob/master/2012/2012-01-13-implementing-semantic-anti-templating-with-jquery.md)
-regarding the original design and implementation. It might be worth reading as an introduction.
-
 

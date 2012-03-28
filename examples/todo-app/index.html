@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-1.7.1.min.js"></script>
     <script src="js/underscore-min.js"></script>
-    <script src="../../lib/transparency.min.js"></script>
+    <script src="../../lib/fill.min.js"></script>
   </head>
   <body>
     <h1>To-do List</h1>
@@ -43,7 +43,7 @@
 
         tasks.on('click', '.delete', function(event) {
           var model;
-          model = event.target.transparency.model;
+          model = event.target.fill.model;
           data = _.reject(data, function(e) {
             return e.task === model.task;
           });

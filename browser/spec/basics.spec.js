@@ -1,12 +1,12 @@
 (function() {
-  var Transparency;
+  var Fill;
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    Transparency = require('../src/transparency');
+    Fill = require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     it("should ignore null context", function() {
       var data, doc, expected;
       doc = jQuery('<div>\
@@ -16,7 +16,7 @@
       };
       expected = jQuery('<div>\
       </div>');
-      window.Transparency.render(doc.find('.container').get(0), data);
+      window.Fill.render(doc.find('.container').get(0), data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
     it("should work with null data", function() {

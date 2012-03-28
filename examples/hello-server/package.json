@@ -5,6 +5,6 @@
     "dependencies": {
       "express":       "2.5.5",
       "jquery":        ">= 1.6.3",
-      "transparency":  ">= 0.2.0"},
+      "fill":          "latest"},
     "scripts": {"start": "node app"}
 }

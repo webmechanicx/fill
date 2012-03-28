@@ -2,10 +2,10 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    require('../src/transparency');
+    require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     it("should handle nested lists", function() {
       var data, doc, expected;
       doc = jQuery('<div>\

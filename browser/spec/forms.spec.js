@@ -1,12 +1,12 @@
 (function() {
-  var Transparency;
+  var Fill;
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
-    Transparency = require('../src/transparency');
+    Fill = require('../src/fill');
   }
 
-  describe("Transparency", function() {
+  describe("Fill", function() {
     it("should render values to form inputs and textarea elements", function() {
       var data, doc, expected;
       doc = document.createElement('form');
@@ -22,7 +22,7 @@
       expected.innerHTML = '<input name="name" type="text" value="John"/>\
       <input name="job" type="text" value="Milkman"/>\
       <textarea name="resume">Jack of all trades</textarea>';
-      Transparency.render(doc, data);
+      Fill.render(doc, data);
       return expect(doc.innerHTML).htmlToBeEqual(expected.innerHTML);
     });
     return it("should render values to option elements", function() {
@@ -62,7 +62,7 @@
           <option class="state" value="3">Arizona</option>\
         </select>\
       </form>');
-      Transparency.render(doc, data, directives);
+      Fill.render(doc, data, directives);
       return expect(doc.innerHTML).htmlToBeEqual(expected.html());
     });
   });

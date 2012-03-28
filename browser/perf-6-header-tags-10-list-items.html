@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Transparency perf test</title>
+    <title>Fill perf test</title>
     <script src="lib/benchmark.js"></script>
     <script src="lib/weld.js"></script>
     <script src="lib/handlebars-1.0.0.beta.6.js"></script>
     <script src="lib/jquery-1.7.1.min.js"></script>
-    <script src="../lib/transparency.js"></script>
+    <script src="../lib/fill.js"></script>
   </head>
   <body>
     <div>
       <pre id="result"></pre>
     </div>
 
-    <h4>Transparency</h4>
-    <div id="transparency">
+    <h4>Fill</h4>
+    <div id="fill">
       <h1 class='header'></h1>
       <h2 class='header2'></h2>
       <h3 class='header3'></h3>
@@ -36,7 +36,7 @@ var handlebarsOutput;
 var handlebarsTemplate;
 var results;
 var sharedVariables;
-var transparencyTemplate;
+var fillTemplate;
 
 sharedVariables = {
   header: "Header",
@@ -49,13 +49,13 @@ sharedVariables = {
 };
 
 results              = $("#result");
-transparencyTemplate = $("#transparency")[0];
+fillTemplate         = $("#fill")[0];
 handlebarsOutput     = $("#handlebars")[0];
 
 handlebarsTemplate = Handlebars.compile("<div><h1 class='header'>{{header}}</h1><h2 class='header2'>{{header2}}</h2><h3 class='header3'>{{header3}}</h3><h4 class='header4'>{{header4}}</h4><h5 class='header5'>{{header5}}</h5><h6 class='header6'>{{header6}}</h6><ul class='list'>{{#list}}<li class='item'>{{this}}</li>{{/list}}</ul></div>");
 
-new Benchmark.Suite().add("transparency", function() {
-  return Transparency.render(transparencyTemplate, sharedVariables);
+new Benchmark.Suite().add("fill", function() {
+  return Fill.render(fillTemplate, sharedVariables);
 }).add("handlebars", function() {
   return handlebarsOutput.innerHTML = handlebarsTemplate(sharedVariables);
 }).on("cycle", function(event, bench) {
