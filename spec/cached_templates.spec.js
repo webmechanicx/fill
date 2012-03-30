@@ -5,8 +5,10 @@
   }
 
   describe("fill", function() {
-    return it("cache templates", function() {
+
+    it("cache templates", function() {
       var data, doc, expected;
+
       doc = jQuery('<div>\
         <div class="container">\
           <div>\
@@ -15,6 +17,7 @@
           </div>\
         </div>\
       </div>');
+
       data = [
         {
           hello: "Hello",
@@ -24,6 +27,7 @@
           world: "Canada!"
         }
       ];
+
       expected = jQuery('<div>\
         <div class="container">\
           <div>\
@@ -36,8 +40,10 @@
           </div>\
         </div>\
       </div>');
+
       doc.find('.container').fill(data);
       doc.find('.container').fill(data);
+
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

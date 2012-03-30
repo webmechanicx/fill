@@ -1,38 +1,46 @@
 (function() {
   var fill;
 
+
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
     fill = require('../src/fill');
   }
 
+
   describe("fill", function() {
     it("should fill values in form inputs and textarea elements", function() {
-      var data, doc, expected;
-      doc = document.createElement('form');
-      doc.innerHTML = '<input name="name" type="text" />\
-      <input name="job" type="text" />\
-      <textarea name="resume"></textarea>';
-      data = {
-        name: 'John',
-        job: 'Milkman',
-        resume: "Jack of all trades"
-      };
-      expected = document.createElement('form');
-      expected.innerHTML = '<input name="name" type="text" value="John"/>\
-      <input name="job" type="text" value="Milkman"/>\
-      <textarea name="resume">Jack of all trades</textarea>';
-      fill(doc, data);
-      return expect(doc.innerHTML).htmlToBeEqual(expected.innerHTML);
+      return testFill(
+
+        '<input name="name" type="text" />\
+        <input name="job"  type="text" />\
+        <textarea name="resume"></textarea>',
+
+        {
+          name:    'John',
+          job:     'Milkman',
+          resume:  "Jack of all trades"
+        },
+
+        '<input name="name" type="text" value="John" />\
+        <input name="job"  type="text" value="Milkman" />\
+        <textarea name="resume">Jack of all trades</textarea>'
+
+      );
     });
-    return it("should fill values in option elements", function() {
-      var data, directives, doc, expected;
-      doc = document.createElement('form');
-      doc.innerHTML = '\
-      <select id="states">\
-        <option class="state"></option>\
-      </select>';
-      data = {
+
+
+    it("should fill values in option elements", function() {
+
+      var doc = jQuery(
+        '<form>\
+          <select id="states">\
+            <option class="state"></option>\
+          </select>\
+        </form>'
+      );
+
+      var data = {
         states: [
           {
             id: 1,
@@ -46,7 +54,8 @@
           }
         ]
       };
-      directives = {
+
+      var directives = {
         states: {
           state: function() {
             return {
@@ -55,15 +64,19 @@
           }
         }
       };
-      expected = jQuery('<form\
-        <select id="states">\
-          <option class="state" value="1">Alabama</option>\
-          <option class="state" value="2">Alaska</option>\
-          <option class="state" value="3">Arizona</option>\
-        </select>\
-      </form>');
+
+      var expected = jQuery(
+        '<form\
+          <select id="states">\
+            <option class="state" value="1">Alabama</option>\
+            <option class="state" value="2">Alaska</option>\
+            <option class="state" value="3">Arizona</option>\
+          </select>\
+        </form>'
+      );
+
       fill(doc, data, directives);
-      return expect(doc.innerHTML).htmlToBeEqual(expected.html());
+      return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });
 
