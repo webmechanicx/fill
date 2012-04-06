@@ -447,12 +447,14 @@ agree on design.
 This project was forked from the very impressive
 [Transparency project](https://github.com/leonidas/transparency)
 to attempt the following:
+
 * allow the setting of attributes (without needing to use directives)
   * eventually phasing out directives completely
 * add support for manipulating strings of HTML (without jsdom)
   * for superfast rendering of html on server (running node.js)
 
-Similar projects:
+### Similar projects:
+
 * [Transparency.js](https://github.com/leonidas/transparency)
   * from which this project was spawned
 * [Plates.js](https://github.com/flatiron/plates)
