@@ -1,4 +1,4 @@
-# Synopsis 
+# Synopsis
 
 fill is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.fill(data)`.
 
@@ -30,20 +30,14 @@ $('#template').fill(hello);
 * Nested objects and collections - No configuration, just conventions
 * Directives - No custom DSL, just functions
 * Template caching - No manual template lookup/compilation/rendering
-* Fast - In most real-world cases, it's faster than any other template engine or hand-crafted bindings (*)
+* Fast - In most real-world cases, it's faster than other template engine or hand-crafted bindings
 * Compatible - Tested on IE6+, Chrome and Firefox
-
-(*) Take with a grain of salt, as "real-world performance" isn't that easy to define or measure. Anyway, jsperf.com
-should give an idea:  
-http://jsperf.com/fill-vs-handlebars-finite-list/3  
-http://jsperf.com/fill-vs-handlebars-infinite-list/3  
-http://jsperf.com/dom-vs-innerhtml-based-templating/366
 
 ## Use it
 
-Install with `npm install fill` or get the 
+Install with `npm install fill` or get the
 [compiled and minified version](https://raw.github.com/profit-strategies/fill/master/lib/fill.min.js)
-and include it to your application. jQuery is optional, but if you happen to use it, fill registers itself 
+and include it to your application. jQuery is optional, but if you happen to use it, fill registers itself
 as a plugin.
 
 ```html
@@ -57,7 +51,7 @@ For server-side use, see `spec` folder and the awesome [jsdom](https://github.co
 
 ### Assigning values
 
-fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and 
+fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and
 `data-bind` attribute. Values are escaped before rendering. Any keys that are
 prefixed with an underscore are treated as attributes.
 
@@ -302,12 +296,12 @@ Result:
 
 ### Directives
 
-Directives are used for manipulating text or html values and setting element attributes. 
-In addition to having an access to the current data object through `this`, directives also receive 
+Directives are used for manipulating text or html values and setting element attributes.
+In addition to having an access to the current data object through `this`, directives also receive
 index number and current element as a parameter, which makes it easy to, e.g., add `even` and `odd` classes or
 hide elements.
 
-The return value of a directive function can be either string or object. If the return value is string, it is assigned 
+The return value of a directive function can be either string or object. If the return value is string, it is assigned
 to the matching elements as text content. If the return value is an object, keys can be either `text`, `html` or any
 valid element attribute, e.g., `class`, `src` or `href`. Values are assigned accordingly to the matching elements.
 
@@ -416,10 +410,6 @@ Result:
 ```
 .
 
-## Getting help
-
-* [FAQ](https://github.com/profit-strategies/fill/wiki/Frequently-Asked-Questions)
-
 ## Development environment
 
 You need node.js 0.6.x and npm.
@@ -452,3 +442,18 @@ All the following are appreciated, in an asceding order of preference
 In case the contribution is going to change fill API, please create a ticket first in order to discuss and
 agree on design.
 
+## Origins and Alternatives
+
+This project was forked from the very impressive
+[Transparency project](https://github.com/leonidas/transparency)
+to attempt the following:
+* allow the setting of attributes (without needing to use directives)
+  * eventually phasing out directives completely
+* add support for manipulating strings of HTML (without jsdom)
+  * for superfast rendering of html on server (running node.js)
+
+Similar projects:
+* [Transparency.js](https://github.com/leonidas/transparency)
+  * from which this project was spawned
+* [Plates.js](https://github.com/flatiron/plates)
+  * successor of [Weld.js](https://github.com/hij1nx/weld)
