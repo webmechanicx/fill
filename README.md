@@ -19,7 +19,7 @@ $('#template').fill(hello);
 ```html
 <div id="template">
   <span class="greeting">Hello</span>
-  <span class="name" href="http://example.com/people/2">world!</span>
+  <a class="name" href="http://example.com/people/2">world!</a>
 </div>
 ```
 
