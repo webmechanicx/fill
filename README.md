@@ -5,13 +5,13 @@ fill is a (client-side) template engine which binds data to DOM with zero config
 ```html
 <div id="template">
   <span class="greeting"></span>
-  <span class="name"></span>
+  <a class="name"></a>
 </div>
 ```
 ```js
 var hello = {
   greeting: 'Hello',
-  name:     'world!'
+  name:     { _text: 'world!', _href: 'http://example.com/people/2' }
 };
 
 $('#template').fill(hello);
@@ -19,7 +19,7 @@ $('#template').fill(hello);
 ```html
 <div id="template">
   <span class="greeting">Hello</span>
-  <span class="name">world!</span>
+  <span class="name" href="http://example.com/people/2">world!</span>
 </div>
 ```
 
@@ -58,7 +58,8 @@ For server-side use, see `spec` folder and the awesome [jsdom](https://github.co
 ### Assigning values
 
 fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and 
-`data-bind` attribute. Values are escaped before rendering.
+`data-bind` attribute. Values are escaped before rendering. Any keys that are
+prefixed with an underscore are treated as attributes.
 
 Template:
 
@@ -76,6 +77,7 @@ Javascript:
 
 ```js
 var hello = {
+  _class:     'message',
   hello:      'Hello',
   goodbye:    'Goodbye!',
   span:       '<i>See Ya!</i>',
@@ -93,7 +95,7 @@ fill(document.getElementById('container'), hello);
 Result:
 
 ```html
-<div class="container">
+<div id="container" class="message">
   <div id="hello">Hello</div>
   <div class="goodbye">Goodbye!</div>
   <span>lt;i&gt;See Ya!&lt;/i&gt;</span>

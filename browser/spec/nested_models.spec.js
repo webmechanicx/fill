@@ -98,7 +98,7 @@
 
 
     it("should handle nested objects", function() {
-      testFill(
+      return testFill(
         '\
           <div>\
             <div class="container">\

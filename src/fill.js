@@ -141,20 +141,63 @@
 
 
   function fillValues(instance, model) {
+    var attr;
+    var attrValue;
     var key;
     var value;
     var element;
     var elements;
 
     if (typeof model === 'object') {
+
       for (key in model) {
         value = model[key];
-        if (typeof value !== 'object' && typeof value !== 'function') {
-          elements = matchingElements(instance, key);
-          for (var i = 0; i < elements.length; i += 1) {
-            setText(elements[i], value);
-          }
+
+        if (value == null) {
+          value = '';
         }
+
+        // wrap text in an object
+        if (typeof value === 'string' || typeof value === 'number') {
+          value = { _text: value };
+        }
+
+        // don't search for elements if this was an attribute
+        if (key[0] === '_') continue;
+
+        elements = matchingElements(instance, key);
+        for (var i = 0; i < elements.length; i += 1) {
+          element = elements[i];
+
+          // set html after text because it has higher precedence
+          setText(element, value._text);
+          setHtml(element, value._html);
+
+          // set all other attributes
+          for (attr in value) {
+            // text and html have already been set
+            if (attr === '_text' || attr === '_html') continue;
+
+            // only attributes that start with an underscore are applied
+            if (attr[0] !== '_') continue;
+
+            // only string and numbers can be stuffed in
+            attrValue = value[attr];
+            if (typeof attrValue !== 'string' && typeof attrValue !== 'number') {
+              continue;
+            }
+
+            // chop off then underscore for the sake of talking to the dom
+            attr = attr.substr(1);
+
+            // Save the original attribute value for the instance reuse
+            element.fill.attributes = element.fill.attributes || {};
+            element.fill.attributes[attr] = element.getAttribute(attr);
+            element.setAttribute(attr, attrValue);
+          }
+
+        }
+
       }
     } else {
       element = matchingElements(instance, 'listElement')[0] || instance.elements[0];
