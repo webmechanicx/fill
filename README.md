@@ -28,7 +28,6 @@ $('#template').fill(hello);
 * Data binding by convention - No extra markup in the views
 * Collection rendering - No loops and partials
 * Nested objects and collections - No configuration, just conventions
-* Directives - No custom DSL, just functions
 * Template caching - No manual template lookup/compilation/rendering
 * Fast - In most real-world cases, it's faster than other template engine or hand-crafted bindings
 * Compatible - Tested on IE6+, Chrome and Firefox
@@ -293,122 +292,6 @@ Result:
   </div>
 </div>
 ```
-
-### Directives
-
-Directives are used for manipulating text or html values and setting element attributes.
-In addition to having an access to the current data object through `this`, directives also receive
-index number and current element as a parameter, which makes it easy to, e.g., add `even` and `odd` classes or
-hide elements.
-
-The return value of a directive function can be either string or object. If the return value is string, it is assigned
-to the matching elements as text content. If the return value is an object, keys can be either `text`, `html` or any
-valid element attribute, e.g., `class`, `src` or `href`. Values are assigned accordingly to the matching elements.
-
-If both `text` and `html` are present, `html` overrides the text content.
-
-Template:
-
-```html
-<div class="person">
-  <span class="name"></span>
-  <a class="email"></a>
-</div>
-```
-
-Javascript:
-
-```js
-person = {
-  firstname: 'Jasmine',
-  lastname:  'Taylor',
-  email:     'jasmine.tailor@example.com'
-};
-
-directives =
-  name:  function(element, index) { return this.firstname + " " + this.lastname; }
-  email: function(element, index) { return {href: "mailto:" + this.email}; }
-};
-
-$('.person').fill(person, directives);
-```
-
-Result:
-
-```html
-<div class="person">
-  <span class="name">Jasmine Taylor</span>
-  <a class="email" href="mailto:jasmine.tailor@example.com">jasmine.tailor@example.com</a>
-</div>
-```
-
-### Nested directives
-
-Template:
-
-```html
-<div class="person">
-  <span class="name"></span>
-  <span class="email"></span>
-  <div class="friends">
-    <div class="friend">
-      <span class="name"></span>
-      <span class="email"></span>
-    </div>
-  </div>
-</div>
-```
-
-Javascript:
-
-```js
-person = {
-  firstname:  'Jasmine',
-  lastname:   'Taylor',
-  email:      'jasmine.taylor@example.com',
-  friends:    [ {
-      firstname: 'John',
-      lastname:  'Mayer',
-      email:     'john.mayer@example.com'
-    }, {
-      firstname: 'Damien',
-      lastname:  'Rice',
-      email:     'damien.rice@example.com'
-    }
-  ]
-};
-
-nameDecorator = function() { return {html: "<b>" + this.firstname + " " + this.lastname + "</b>"}; };
-
-directives = {
-  name: nameDecorator,
-  friends: {
-    name: nameDecorator
-  }
-};
-
-$('.person').fill(person, directives);
-```
-
-Result:
-
-```html
-<div class="person">
-  <span class="name"><b>Jasmine Taylor</b></span>
-  <span class="email">jasmine.taylor@example.com</span>
-  <div class="friends">
-    <div class="friend">
-      <span class="name"><b>John Mayer</b></span>
-      <span class="email">john.mayer@example.com</span>
-    </div>
-    <div class="friend">
-      <span class="name"><b>Damien Rice</b></span>
-      <span class="email">damien.rice@example.com</span>
-    </div>
-  </div>
-</div>
-```
-.
 
 ## Development environment
 

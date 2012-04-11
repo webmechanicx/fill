@@ -172,48 +172,45 @@
         release: "1.2",
         profiles: [
           {
-            name: 'Core',
+            a: { _text: 'Core', _href: '/Core' },
             testsets: [
               {
-                name: "Sanity",
-                products: [ { name: "N900" }, { name: "Lenovo" } ]
+                a: { _text: 'Sanity', _href: '/Sanity' },
+                products: [ {
+                  name: { _text: "N900", _href: '/N900' }
+                }, {
+                  name: { _text: "Lenovo", _href: '/Lenovo' }
+                } ]
               }, {
-                name: "Acceptance",
-                products: [ { name: "Netbook" }, { name: "Pinetrail" } ]
+                a: { _text: 'Acceptance', _href: '/Acceptance' },
+                products: [ {
+                  name: { _text: "Netbook", _href: '/Netbook' }
+                }, {
+                  name: { _text: "Pinetrail", _href: '/Pinetrail' }
+                } ]
               }
             ]
           }, {
-            name: 'Handset',
+            a: { _text: 'Handset', _href: '/Handset' },
             testsets: [
               {
-                name: "Feature",
-                products: [ { name: "N900" }, { name: "Lenovo" } ]
+                a: { _text: 'Feature', _href: '/Feature' },
+                products: [ {
+                  name: { _text: "N900", _href: '/N900' }
+                }, {
+                  name: { _text: "Lenovo", _href: '/Lenovo' }
+                } ]
               }, {
-                name: 'NFT',
-                products: [ { name: "Netbook" }, { name: "iCDK" }
-                ]
+                a: { _text: 'NFT', _href: '/NFT' },
+                products: [ {
+                  name: { _text: "Netbook", _href: '/Netbook' }
+                }, {
+                  name: { _text: "iCDK", _href: '/iCDK' }
+                } ]
               }
             ]
           }
         ]
-      };
-
-      var directives = {
-        profiles: {
-          name: function() {
-            return { href: "/" + this.name };
-          },
-          testsets: {
-            name: function() {
-              return { href: "/" + this.name };
-            },
-            products: {
-              name: function() {
-                return { href: "/" + this.name };
-              }
-            }
-          }
-        }
       };
 
       var expected = jQuery('\
@@ -285,7 +282,7 @@
         </div>\
       ');
 
-      doc.find('.test_reports').fill(data, directives);
+      doc.find('.test_reports').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });

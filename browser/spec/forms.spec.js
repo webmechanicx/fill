@@ -1,5 +1,4 @@
 (function() {
-  var fill;
 
 
   if (typeof module !== 'undefined' && module.exports) {
@@ -32,51 +31,52 @@
 
     it("should fill values in option elements", function() {
 
-      var doc = jQuery(
-        '<form>\
-          <select id="states">\
-            <option class="state"></option>\
-          </select>\
-        </form>'
+      return testFill(
+
+        '<div>\
+          <div class="container">\
+            <form>\
+              <select id="states">\
+                <option class="state"></option>\
+              </select>\
+            </form>\
+          </div>\
+        </div>',
+
+        {
+          states: [
+            {
+              state: {
+                _value: 1,
+                _text: 'Alabama'
+              }
+            }, {
+              state: {
+                _value: 2,
+                _text: 'Alaska'
+              }
+            }, {
+              state: {
+                _value: 3,
+                _text: 'Arizona'
+              }
+            }
+          ]
+        },
+
+        '<div>\
+          <div class="container">\
+            <form>\
+              <select id="states">\
+                <option class="state" value="1">Alabama</option>\
+                <option class="state" value="2">Alaska</option>\
+                <option class="state" value="3">Arizona</option>\
+              </select>\
+            </form>\
+          </div>\
+        </div>'
       );
 
-      var data = {
-        states: [
-          {
-            id: 1,
-            state: 'Alabama'
-          }, {
-            id: 2,
-            state: 'Alaska'
-          }, {
-            id: 3,
-            state: 'Arizona'
-          }
-        ]
-      };
-
-      var directives = {
-        states: {
-          state: function() {
-            return {
-              value: this.id
-            };
-          }
-        }
-      };
-
-      var expected = jQuery(
-        '<form\
-          <select id="states">\
-            <option class="state" value="1">Alabama</option>\
-            <option class="state" value="2">Alaska</option>\
-            <option class="state" value="3">Arizona</option>\
-          </select>\
-        </form>'
-      );
-
-      fill(doc, data, directives);
-      return expect(doc.html()).htmlToBeEqual(expected.html());
     });
   });
 
