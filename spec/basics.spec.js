@@ -174,6 +174,35 @@
     });
 
 
+    it("should work with multiple matching elements", function() {
+      return testFill(
+
+        '<div>\
+          <div class="container">\
+            <div class="hello"></div>\
+          </div>\
+          <div class="container">\
+            <div class="hello"></div>\
+          </div>\
+        </div>',
+
+        {
+          hello: 'Hello',
+        },
+
+        '<div>\
+          <div class="container">\
+            <div class="hello">Hello</div>\
+          </div>\
+          <div class="container">\
+            <div class="hello">Hello</div>\
+          </div>\
+        </div>'
+
+      );
+    });
+
+
     it("should match by element id, class, name and data-bind", function() {
       return testFill(
 
@@ -235,6 +264,7 @@
 
       );
     });
+
   });
 
 

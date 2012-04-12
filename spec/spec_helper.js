@@ -18,7 +18,7 @@
     var before = jQuery(html);
     var after = jQuery(expected);
 
-    window.fill(before.find('.container').get(0), data);
+    window.fill(before.find('.container'), data);
     return expect(before.html()).htmlToBeEqual(after.html());
   };
 

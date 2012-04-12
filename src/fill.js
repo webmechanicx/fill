@@ -30,7 +30,7 @@
     if (contexts.length != null && contexts[0]) {
       temp = [];
       for (i = 0; i < contexts.length; i += 1) {
-        temp.push(contexts[0]);
+        temp.push(contexts[i]);
       }
       contexts = temp;
     } else {
@@ -39,7 +39,6 @@
 
     // wrap the models in an array for interating over them
     if (!_isArray(models)) models = [models];
-
     for (var i = 0; i < contexts.length; i += 1) {
       context = contexts[i];
 
@@ -53,13 +52,13 @@
       // make sure we have the correct amount of template instances available
       prepareContext(context, models);
 
-      for (var i = 0; i < models.length; i += 1) {
-        model = models[i];
-        instance = context.fill.instances[i];
+      for (var j = 0; j < models.length; j += 1) {
+        model = models[j];
+        instance = context.fill.instances[j];
 
         // associate model with instance elements
-        for (var j = 0; j < instance.elements.length; j += 1) {
-          instance.elements[j].fill.model = model;
+        for (var k = 0; k < instance.elements.length; k += 1) {
+          instance.elements[k].fill.model = model;
         }
 
         fillValues(instance, model);
