@@ -34,17 +34,25 @@
       htmlToBeEqual: function(expected) {
         var actual, formatHtml;
         formatHtml = function(html) {
-          var normalizedHtml = html.replace(/^\s+/, ''   )
-                                   .replace(/\s+$/, ''   )
-                                   .replace(/></g,  '> <')
-                                   .replace(/ +/g,  ' '  )
+          var normalizedHtml = html.replace(/^\s+/, ''      )
+                                   .replace(/\s+$/, ''      )
+                                   .replace(/></g,  '> <'   )
+                                   .replace(/ +/g,  ' '     )
+                                   .replace(/> </g, '>\n<'  )
                                    .toLowerCase();
           return normalizedHtml;
         };
-        actual = formatHtml(this.actual);
+        actual   = formatHtml(this.actual);
         expected = formatHtml(expected);
         this.message = function() {
-          return actual + '\n\n' + expected;
+          var startOfLine = /^/mg;
+          var indent      = '  ';
+
+          return  '\n\nExpected:\n' +
+                  expected.replace(startOfLine, indent) +
+                  '\n\nReceived:\n' +
+                  actual.replace(startOfLine, indent) +
+                  '\n';
         };
         return actual === expected;
       }
