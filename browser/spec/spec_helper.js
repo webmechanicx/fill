@@ -34,7 +34,12 @@
       htmlToBeEqual: function(expected) {
         var actual, formatHtml;
         formatHtml = function(html) {
-          return html.replace(/\s/g, '').toLowerCase();
+          var normalizedHtml = html.replace(/^\s+/, ''   )
+                                   .replace(/\s+$/, ''   )
+                                   .replace(/></g,  '> <')
+                                   .replace(/ +/g,  ' '  )
+                                   .toLowerCase();
+          return normalizedHtml;
         };
         actual = formatHtml(this.actual);
         expected = formatHtml(expected);
