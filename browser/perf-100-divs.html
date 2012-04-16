@@ -35,16 +35,12 @@ var results;
 var sharedVariables;
 var fillTemplate;
 
-sharedVariables = (function() {
-  var _results;
-  _results = [];
-  for (n = 1; n <= 100; n++) {
-    _results.push({
-      title: n
-    });
-  }
-  return _results;
-})();
+sharedVariables = []
+for (n = 1; n <= 100; n++) {
+  sharedVariables.push({
+    title: n
+  });
+}
 
 foobar = {
   foobar: sharedVariables

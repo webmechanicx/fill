@@ -5,17 +5,13 @@
   }
 
 
-  describe("fill", function(){
+  describe("fill attributes", function(){
 
     it("will set the text with _text", function(){
       return testFill(
         '\
-          <div>\
-            <div class="container">\
-              <div class="firstName"></div>\
-              <div class="lastName"></div>\
-            </div>\
-          </div>\
+          <div class="firstName"></div>\
+          <div class="lastName"></div>\
         ',
 
         {
@@ -24,12 +20,8 @@
         },
 
         '\
-          <div>\
-            <div class="container">\
-              <div class="firstName">Fred</div>\
-              <div class="lastName">Smith</div>\
-            </div>\
-          </div>\
+          <div class="firstName">Fred</div>\
+          <div class="lastName">Smith</div>\
         '
       );
     });
@@ -38,12 +30,8 @@
     it("will set the html with _html", function(){
       return testFill(
         '\
-          <div>\
-            <div class="container">\
-              <div class="firstName"></div>\
-              <div class="lastName"></div>\
-            </div>\
-          </div>\
+          <div class="firstName"></div>\
+          <div class="lastName"></div>\
         ',
 
         {
@@ -52,12 +40,8 @@
         },
 
         '\
-          <div>\
-            <div class="container">\
-              <div class="firstName"><b>Dave</b></div>\
-              <div class="lastName"></div>\
-            </div>\
-          </div>\
+          <div class="firstName"><b>Dave</b></div>\
+          <div class="lastName"></div>\
         '
       );
     });
@@ -66,11 +50,7 @@
     it("will set attributes using a underscore prefix", function(){
       return testFill(
         '\
-          <div>\
-            <div class="container">\
-              <a class="name"></a>\
-            </div>\
-          </div>\
+          <a class="name"></a>\
         ',
 
         {
@@ -82,11 +62,7 @@
         },
 
         '\
-          <div>\
-            <div class="container">\
-              <a class="name" href="http://example.com" name="link1">Linkity Link</a>\
-            </div>\
-          </div>\
+          <a class="name" href="http://example.com" name="link1">Linkity Link</a>\
         '
       );
     });
@@ -95,13 +71,9 @@
     it("can set attributes on nested elements", function(){
       return testFill(
         '\
-          <div>\
-            <div class="container">\
-              <div class="person">\
-                <div class="name"></div>\
-                <div class="age"></div>\
-              </div>\
-            </div>\
+          <div class="person">\
+            <div class="name"></div>\
+            <div class="age"></div>\
           </div>\
         ',
 
@@ -117,13 +89,9 @@
         },
 
         '\
-          <div>\
-            <div class="container">\
-              <div class="person" name="john">\
-                <div class="name">John Doe</div>\
-                <div class="age" style="border:1px solid red; color: blue">22</div>\
-              </div>\
-            </div>\
+          <div class="person" name="john">\
+            <div class="name">John Doe</div>\
+            <div class="age" style="border:1px solid red; color: blue">22</div>\
           </div>\
         '
       );

@@ -1,7 +1,5 @@
 # Frequently Asked Questions
 
-Here we have collected things which you might ponder to see whether `fill` would be a good solution for you.
-
 ## Why DOM based templating
 
 There are several strong arguments for using solutions like `fill`
@@ -30,7 +28,12 @@ You might have several data models in your application, e.g.
 
 * Template model: how data is presented in the templates
 
-If your storage model, i.e. data coming from your server, does not directly match the template code you need to re-map it. Many templating solutions do this in the template language itself. With `fill` you should preprocess (storage) data model and convert it to template model before feeding it to `fill()` in your Javascript code -- this is a simple operation of reading in a Javascript object and producing a new object out of it.
+If your storage model, i.e. data coming from your server, does not directly
+match the template code you need to re-map it. Many templating solutions do
+this in the template language itself. With `fill` you should preprocess
+(storage) data model and convert it to template model before feeding it to
+`fill()` in your Javascript code -- this is a simple operation of reading in a
+Javascript object and producing a new object out of it.
 
 ## Other similar solutions to `fill`:
 
@@ -42,7 +45,7 @@ If your storage model, i.e. data coming from your server, does not directly matc
 
 * [Plates](https://github.com/flatiron/plates)
 
-## How do I create attributes with `fill`?
+## How do I set attributes with `fill`?
 
 Just prefix the attributes with underscores...
 

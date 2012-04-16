@@ -1,11 +1,10 @@
 (function() {
-  var expectModelObjects;
 
   if (typeof module !== 'undefined' && module.exports) {
     require('./spec_helper');
   }
 
-  describe("fill", function() {
+  describe("fill lists", function() {
 
     it("should handle list of objects", function() {
       var doc = jQuery(
@@ -40,10 +39,8 @@
         </div>'
       );
 
-      doc.find('.comments').fill(data);
+      doc.find('.comment').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
-      expect(doc.find('.comment').get(0).fill.model).toEqual(data[0]);
-      return expectModelObjects(doc.find('.comment'), data);
     });
 
 
@@ -68,7 +65,7 @@
         </div>\
       ');
 
-      doc.find('.comments').fill(data);
+      doc.find('.comment').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
 
@@ -76,52 +73,60 @@
     it("should fill list with simple values", function() {
       var doc = jQuery(
         '<div>\
-          <div class="comments">\
-            <span></span>\
-            <label>blah</label>\
+          <div class="comment">\
+            <span></span><label>blah</label>\
           </div>\
         </div>'
       );
 
-      var data = ["That rules", "Great post!"];
+      var data = [
+        { span: "That rules" },
+        { span: "Great post!" }
+      ];
 
       var expected = jQuery(
         '<div>\
-          <div class="comments">\
-            <span>That rules</span><label>blah</label><span>Great post!</span><label>blah</label>\
+          <div class="comment">\
+            <span>That rules</span><label>blah</label>\
+          </div>\
+          <div class="comment">\
+            <span>Great post!</span><label>blah</label>\
           </div>\
         </div>'
       );
 
-      doc.find('.comments').fill(data);
+      doc.find('.comment').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
-      return expectModelObjects(doc.find('span'), data);
     });
 
 
-    it("should place simple value into element with listElement class if found", function() {
+    it("should place simple value into element with class", function() {
       var doc = jQuery(
         '<div>\
-          <div class="comments">\
-            <label>comment</label><span class="listElement"></span>\
+          <div class="comment">\
+            <label>comment</label><span class="body"></span>\
           </div>\
         </div>'
       );
 
-      var data = ["That rules", "Great post!"];
+      var data = [
+        { body: "That rules" },
+        { body: "Great post!" }
+      ];
 
       var expected = jQuery(
         '<div>\
-          <div class="comments">\
-            <label>comment</label><span class="listElement">That rules</span>\
-            <label>comment</label><span class="listElement">Great post!</span>\
+          <div class="comment">\
+            <label>comment</label><span class="body">That rules</span>\
+          </div>\
+          <div class="comment">\
+            <label>comment</label><span class="body">Great post!</span>\
           </div>\
         </div>'
       );
 
-      doc.find('.comments').fill(data);
+      doc.find('.comment').fill(data);
       expect(doc.html()).htmlToBeEqual(expected.html());
-      return expectModelObjects(doc.find('.listElement'), data);
     });
 
 
@@ -142,7 +147,7 @@
         </div>'
       );
 
-      doc.find('.comments').fill(data);
+      doc.find('.comment').fill(data);
       return expect(doc.html()).htmlToBeEqual(expected.html());
     });
 
@@ -160,7 +165,7 @@
         </div>'
       );
 
-      doc.find("tbody.users").fill([
+      doc.find("tr").fill([
         { username: 'user1' },
         { username: 'user2' }
       ]);
@@ -179,7 +184,7 @@
         </table>\
       </div>').html());
 
-      doc.find("tbody.users").fill([
+      doc.find("tr").fill([
         { username: 'user1' }
       ]);
 
@@ -194,9 +199,11 @@
         </table>\
       </div>').html());
 
-      doc.find("tbody.users").fill([
+      doc.find("tr").fill([
         { username: 'user1' },
-        { username: 'user3' }
+        { username: 'user2' },
+        { username: 'user3' },
+        { username: 'user4' }
       ]);
 
       expect(doc.html()).htmlToBeEqual(jQuery('\
@@ -207,42 +214,40 @@
               <td class="username">user1</td>\
             </tr>\
             <tr>\
+              <td class="username">user2</td>\
+            </tr>\
+            <tr>\
               <td class="username">user3</td>\
+            </tr>\
+            <tr>\
+              <td class="username">user4</td>\
             </tr>\
           </tbody>\
         </table>\
       </div>').html());
 
-      doc.find("tbody.users").fill([
-        { username: 'user4' },
-        { username: 'user3' }
+      doc.find("tr").fill([
+        { username: 'user1' },
+        { username: 'user2' }
       ]);
 
-      return expect(doc.html()).htmlToBeEqual(jQuery('\
+      expect(doc.html()).htmlToBeEqual(jQuery('\
       <div>\
         <table>\
           <tbody class="users">\
             <tr>\
-              <td class="username">user4</td>\
+              <td class="username">user1</td>\
             </tr>\
             <tr>\
-              <td class="username">user3</td>\
+              <td class="username">user2</td>\
             </tr>\
           </tbody>\
         </table>\
       </div').html());
     });
+
+
   });
 
-
-  expectModelObjects = function(elements, data) {
-    var i, object, _len, _results;
-    _results = [];
-    for (i = 0, _len = data.length; i < _len; i++) {
-      object = data[i];
-      _results.push(expect(elements.get(i).fill.model).toEqual(object));
-    }
-    return _results;
-  };
 
 }).call(this);

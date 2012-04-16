@@ -1,58 +1,80 @@
+
+## NOT READY FOR PRODUCTION
+
+This project is under heavy development, and the API has not solidfied yet.
+Don't use this for anything important...yet.
+
 # Synopsis
 
-fill is a (client-side) template engine which binds data to DOM with zero configuration. Just call `.fill(data)`.
+Bind data to DOM with zero configuration. Just call `.fill(data)`.
 
 ```html
 <div id="template">
-  <span class="greeting"></span>
-  <a class="name"></a>
+  <h2 class="project"></h2>
+  <div data-bind="details">
+    <a name="githubLink"></a>
+    <ul class="features">
+      <li></li>
+    </ul>
+  </div>
 </div>
 ```
 ```js
-var hello = {
-  greeting: 'Hello',
-  name:     { _text: 'world!', _href: 'http://example.com/people/2' }
-};
-
-$('#template').fill(hello);
+$('#template').fill({
+  project: 'Fill',
+  details: {
+    githubLink: { _text: 'Fill', _href: 'https://github.com/profit-strategies/fill' },
+    features: {
+      _style: 'color:green'
+      li: [
+        'Uses plain HTML with no extra templating markup',
+        'Runs on the client or server (with jsdom)',
+        'Render arrays without loops or partials',
+        'Nested objects and collections',
+        'Compatible (tested on IE6+, Chrome and Firefox)',
+      ]
+  }
+});
 ```
 ```html
 <div id="template">
-  <span class="greeting">Hello</span>
-  <a class="name" href="http://example.com/people/2">world!</a>
+  <h2 class="project">Fill</h2>
+  <div data-bind="details">
+    <a name="githubLink" href="https://github.com/profit-strategies/fill">Fill</a>
+    <ul class="features" style="color:green">
+      <li>Uses plain HTML with no extra templating markup</li>
+      <li>Runs on the client or server (with jsdom)</li>
+      <li>Render arrays without loops or partials</li>
+      <li>Nested objects and collections</li>
+      <li>Compatible (tested on IE6+, Chrome and Firefox)</li>
+    </ul>
+  </div>
 </div>
 ```
-
-## Features
-
-* Data binding by convention - No extra markup in the views
-* Collection rendering - No loops and partials
-* Nested objects and collections - No configuration, just conventions
-* Template caching - No manual template lookup/compilation/rendering
-* Fast - In most real-world cases, it's faster than other template engine or hand-crafted bindings
-* Compatible - Tested on IE6+, Chrome and Firefox
 
 ## Use it
 
 Install with `npm install fill` or get the
 [compiled and minified version](https://raw.github.com/profit-strategies/fill/master/lib/fill.min.js)
-and include it to your application. jQuery is optional, but if you happen to use it, fill registers itself
-as a plugin.
+and include it to your application. jQuery is optional, but if you happen to
+use it, fill registers itself as a plugin.
 
 ```html
 <script src="js/jquery-1.7.1.min.js"></script>
 <script src="js/fill.min.js"></script>
 ```
 
-For server-side use, see `spec` folder and the awesome [jsdom](https://github.com/tmpvar/jsdom) for the details.
+For server-side use, see `spec` folder and the awesome
+[jsdom](https://github.com/tmpvar/jsdom) for the details.
 
 ## Examples
 
 ### Assigning values
 
-fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`, `name` attribute and
-`data-bind` attribute. Values are escaped before rendering. Any keys that are
-prefixed with an underscore are treated as attributes.
+fill binds JavaScript objects to DOM a element by `id`, `class`,`element name`,
+`name` attribute and `data-bind` attribute. Values are escaped before rendering.
+Any keys that are prefixed with an underscore are treated as attributes (with
+the exception of _text and _html).
 
 Template:
 
@@ -91,7 +113,7 @@ Result:
 <div id="container" class="message">
   <div id="hello">Hello</div>
   <div class="goodbye">Goodbye!</div>
-  <span>lt;i&gt;See Ya!&lt;/i&gt;</span>
+  <span><i>See Ya!</i></span>
   <input type="text" name="greeting" value="Howdy!" />
   <button class="hi-button" data-bind="hi-label">Terve!</button>
 </div>
@@ -110,11 +132,13 @@ Template:
 Javascript:
 
 ```js
-var activities = [
-  {activity: 'Jogging'},
-  {activity: 'Gym'},
-  {activity: 'Sky Diving'},
-];
+var activities = {
+  activity: [
+    'Jogging',
+    'Gym',
+    'Sky Diving'
+  ]
+};
 
 $('#activities').fill(activities);
 
@@ -132,14 +156,17 @@ Result:
 </ul>
 ```
 
-#### Iterating over a list with plain values
+
+#### Iterating over a list, using a css class to select the target
 
 Template:
 
 ```html
 <div>
   <div class="comments">
-    <span></span>
+    <div class="comment">
+      <label>comment</label><span class="body"></span>
+    </div>
   </div>
 </div>
 ```
@@ -147,9 +174,12 @@ Template:
 Javascript:
 
 ```js
-var comments = ["That rules", "Great post!"]
+var comments = [
+  {body: "That rules"},
+  {body: "Great post!"}
+]
 
-$('.comments').fill(comments);
+$('.comment').fill(comments);
 ```
 
 Result:
@@ -157,39 +187,12 @@ Result:
 ```html
 <div>
   <div class="comments">
-    <span>That rules</span>
-    <span>Great post!</span>
-  </div>
-</div>
-```
-
-#### Iterating over a list with plain values, using `listElement` class
-
-Template:
-
-```html
-<div>
-  <div class="comments">
-    <label>comment</label><span class="listElement"></span>
-  </div>
-</div>
-```
-
-Javascript:
-
-```js
-var comments = ["That rules", "Great post!"]
-
-$('.comments').fill(comments);
-```
-
-Result:
-
-```html
-<div>
-  <div class="comments">
-    <label>comment</label><span class="listElement">That rules</span>
-    <label>comment</label><span class="listElement">Great post!</span>
+    <div class="comment">
+      <label>comment</label><span class="body">That rules</span>
+    </div>
+    <div class="comment">
+      <label>comment</label><span class="body">Great post!</span>
+    </div>
   </div>
 </div>
 ```
@@ -217,7 +220,7 @@ Javascript:
 var post = {
   title:    'Hello World',
   post:     'Hi there it is me',
-  comments: [ {
+  comment: [ {
       name: 'John',
       text: 'That rules'
     }, {

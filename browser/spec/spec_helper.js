@@ -15,11 +15,11 @@
 
   // create a helper method to make it easier to test the fill method
   window.testFill = function(html, data, expected){
-    var before = jQuery(html);
-    var after = jQuery(expected);
+    var before = jQuery('<div><div class="container">' + html     + '</div></div>');
+    var after  = jQuery('<div><div class="container">' + expected + '</div></div>');
 
     window.fill(before.find('.container'), data);
-    return expect(before.html()).htmlToBeEqual(after.html());
+    return expect(before.find('.container').html()).htmlToBeEqual(after.find('.container').html());
   };
 
 

@@ -7,7 +7,7 @@
   }
 
 
-  describe("fill", function() {
+  describe("fill forms", function() {
     it("should fill values in form inputs and textarea elements", function() {
       return testFill(
 
@@ -33,48 +33,27 @@
 
       return testFill(
 
-        '<div>\
-          <div class="container">\
-            <form>\
-              <select id="states">\
-                <option class="state"></option>\
-              </select>\
-            </form>\
-          </div>\
-        </div>',
+        '<form>\
+          <select id="states">\
+            <option class="state"></option>\
+          </select>\
+        </form>',
 
         {
-          states: [
-            {
-              state: {
-                _value: 1,
-                _text: 'Alabama'
-              }
-            }, {
-              state: {
-                _value: 2,
-                _text: 'Alaska'
-              }
-            }, {
-              state: {
-                _value: 3,
-                _text: 'Arizona'
-              }
-            }
+          option: [
+            { _value: 1, _text: 'Alabama' },
+            { _value: 2, _text: 'Alaska'  },
+            { _value: 3, _text: 'Arizona' }
           ]
         },
 
-        '<div>\
-          <div class="container">\
-            <form>\
-              <select id="states">\
-                <option class="state" value="1">Alabama</option>\
-                <option class="state" value="2">Alaska</option>\
-                <option class="state" value="3">Arizona</option>\
-              </select>\
-            </form>\
-          </div>\
-        </div>'
+        '<form>\
+          <select id="states">\
+            <option class="state" value="1">Alabama</option>\
+            <option class="state" value="2">Alaska</option>\
+            <option class="state" value="3">Arizona</option>\
+          </select>\
+        </form>'
       );
 
     });
