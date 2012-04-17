@@ -12,17 +12,22 @@
       return testFill(
 
         '<input name="name" type="text" />\
-        <input name="job"  type="text" />\
+        <input name="job"  type="text" value="Worker"/>\
+        <input name="age"  type="text" value="Default"/>\
+        <input name="skill"  type="text" value="Laser Vision"/>\
         <textarea name="resume"></textarea>',
 
         {
           name:    'John',
-          job:     'Milkman',
+          job:     null,
+          age:     undefined,
           resume:  "Jack of all trades"
         },
 
         '<input name="name" type="text" value="John" />\
-        <input name="job"  type="text" value="Milkman" />\
+        <input name="job"  type="text" value="" />\
+        <input name="age"  type="text" value=""/>\
+        <input name="skill"  type="text" value="Laser Vision"/>\
         <textarea name="resume">Jack of all trades</textarea>'
 
       );

@@ -70,6 +70,38 @@
     });
 
 
+    it("should clear a container if the html is empty", function() {
+      return testFill(
+
+        '<div class="hello"></div>\
+         <div class="goodbye"></div>',
+
+        {
+          _html: ''
+        },
+
+        ''
+
+      );
+    });
+
+
+    it("should clear a container if the html is undefined", function() {
+      return testFill(
+
+        '<div class="hello"></div>\
+         <div class="goodbye"></div>',
+
+        {
+          _html: undefined
+        },
+
+        ''
+
+      );
+    });
+
+
     it("should work with null data on a container", function() {
       return testFill(
 
@@ -78,23 +110,7 @@
 
         null,
 
-        ''
-
-      );
-    });
-
-
-    it("should work with null values", function() {
-      return testFill(
-
         '<div class="hello"></div>\
-         <div class="goodbye"></div>',
-
-        {
-          hello: 'Hello'
-        },
-
-        '<div class="hello">Hello</div>\
          <div class="goodbye"></div>'
 
       );
@@ -104,8 +120,25 @@
     it("should work with null values", function() {
       return testFill(
 
-        '<div class="hello"></div>\
-         <div class="goodbye"></div>',
+        '<div class="hello">Hi</div>\
+         <div class="goodbye">Bye</div>',
+
+        {
+          hello: 'Hello'
+        },
+
+        '<div class="hello">Hello</div>\
+         <div class="goodbye">Bye</div>'
+
+      );
+    });
+
+
+    it("should work with null values", function() {
+      return testFill(
+
+        '<div class="hello">Hi</div>\
+         <div class="goodbye">Bye</div>',
 
         {
           hello: 'Hello',
@@ -114,6 +147,39 @@
 
         '<div class="hello">Hello</div>\
          <div class="goodbye"></div>'
+
+      );
+    });
+
+
+    it("should not clear the text if only attributes are set", function() {
+      return testFill(
+
+        '<div class="hello">Hi</div>',
+
+        {
+          hello: { _name: 'johnny' }
+        },
+
+        '<div class="hello" name="johnny">Hi</div>'
+
+      );
+    });
+
+
+    it("should work with undefined values", function() {
+      return testFill(
+
+        '<div class="firstName">Default First Name</div>\
+         <div class="lastName">Default Last Name</div>',
+
+        {
+          firstName: undefined,
+          lastName:  'Jones'
+        },
+
+        '<div class="firstName"></div>\
+         <div class="lastName">Jones</div>'
 
       );
     });
