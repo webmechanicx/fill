@@ -79,85 +79,54 @@
   }
 
 
-  // TODO: Detatch just the top node? or do we have to do it on all nodes?
-
-
   function fillNode(node, data) {
-    // dom manipulation is a lot faster when elements are detached
-    whileDetatched(node, function() {
+    var attributes;
+    var attrName;
+    var attrValue;
 
-      var attributes;
-      var attrName;
-      var attrValue;
+    var element;
+    var elements;
 
-      var element;
-      var elements;
+    // ignore functions
+    if (typeof data === 'function') return
 
-      // ignore functions
-      if (typeof data === 'function') return
+    // if the value is a simple property wrap it in the attributes hash
+    if (typeof data !== 'object') return fillNode(node, { _text: data })
 
-      // if the value is a simple property wrap it in the attributes hash
-      if (typeof data !== 'object') return fillNode(node, { _text: data })
+    // find all the attributes
+    for (var key in data) {
+      var value = data[key]
 
-      // find all the attributes
-      for (var key in data) {
-        var value = data[key]
+      // null values are treated like empty strings
+      if (value == null) value = ''
 
-        // null values are treated like empty strings
-        if (value == null) value = ''
-
-        // anything that starts with an underscore is an attribute
-        if (key[0] === '_') {
-          // store the properties to set them all at once
-          if (typeof value === 'string' || typeof value === 'number') {
-            attributes = attributes || {}
-            attributes[key.substr(1)] = value;
-          } else {
-            throw new Error('Expected a string or number for "' + key +
-                            '", got: "' + JSON.stringify(value) + '"');
-          }
+      // anything that starts with an underscore is an attribute
+      if (key[0] === '_') {
+        // store the properties to set them all at once
+        if (typeof value === 'string' || typeof value === 'number') {
+          attributes = attributes || {}
+          attributes[key.substr(1)] = value;
+        } else {
+          throw new Error('Expected a string or number for "' + key +
+                          '", got: "' + JSON.stringify(value) + '"');
         }
       }
+    }
 
-      // fill in all the attributes
-      if (attributes) {
-        fillAttributes(node, attributes)
-      }
-
-
-      // look for non-attribute keys and recurse into those elements
-      for (var key in data) {
-        var value = data[key]
-
-        // only attributes start with an underscore
-        if (key[0] !== '_') {
-          elements = matchingElements(node, key);
-          fill(elements, value);
-        }
-      }
+    // fill in all the attributes
+    if (attributes) {
+      fillAttributes(node, attributes)
+    }
 
 
-    }) // reattach the node
-  }
+    // look for non-attribute keys and recurse into those elements
+    for (var key in data) {
+      var value = data[key]
 
-
-
-  // detach the node, run the callback, and reattach it
-  function whileDetatched(node, callback) {
-    // save the original position of the node for reattaching later
-    var sibling = node.nextSibling;
-    var parent  = node.parentNode;
-
-    if (parent != null) parent.removeChild(node);
-
-    callback();
-
-    // put the context element back to it's original place in the dom
-    if ( parent != null ) {
-      if (sibling) {
-        parent.insertBefore(node, sibling);
-      } else {
-        parent.appendChild(node);
+      // only attributes start with an underscore
+      if (key[0] !== '_') {
+        elements = matchingElements(node, key);
+        fill(elements, value);
       }
     }
   }
