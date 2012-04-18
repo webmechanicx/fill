@@ -29,6 +29,15 @@
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
       if (elements.length === 0) {
+
+        //=====================================================================
+        // Warning: the following is a case where we could end up here: A page
+        // that returns search results as the user is typing. If the results
+        // are empty, then the child nodes that display the results will all
+        // be removed. Then a subsequent attempt to fill in the search results
+        // with data won't have any dom elements to clone.
+        //=====================================================================
+
         // cannot fill empty nodeList with an array of data
         return
       }
