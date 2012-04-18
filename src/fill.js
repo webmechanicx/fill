@@ -9,6 +9,12 @@
   }
 
 
+  // the user can inject a logger function to get some feedback from fill
+  function log(msg) {
+    if (typeof fill.logger === 'function') fill.logger(msg)
+  }
+
+
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data) {
     var node
@@ -276,7 +282,7 @@
       }
     }
 
-    // if (!matches.length) console.log('Warning: no matches for ' + key);
+    if (!matches.length) log('FILL - Warning: no matches found for ' + key);
 
     return matches
   }
@@ -314,6 +320,8 @@
   // add the fill method to jQuery if it exists
   if (typeof jQuery !== "undefined" && jQuery !== null) {
     jQuery.fn.fill = function(models) {
+      // copy optional logger to fill function for debug messages
+      fill.logger = jQuery.fn.fill.logger;
       fill(this.get(), models);
       return this;
     };
