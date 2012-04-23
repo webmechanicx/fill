@@ -1,6 +1,6 @@
 {
   "name"           :  "fill",
-  "version"        :  "0.5.2",
+  "version"        :  "0.5.3",
   "description"    :  "Templating with nothing but javascript objects and HTML.",
   "homepage"       :  "https://github.com/profit-strategies/fill",
   "repository"     :  {

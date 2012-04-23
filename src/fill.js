@@ -232,7 +232,7 @@
 
 
   // find all of the matching elements (breadth-first)
-  function matchingElements(node, key) {
+  function matchingElements(node, key, nested) {
     var elements = childElements(node)
     var matches = []
 
@@ -246,12 +246,13 @@
     // if there is no match, recursively search the childNodes
     if (!matches.length && elements.length){
       for (var i = 0; i < elements.length; i++) {
-        matches = matchingElements(elements[i], key)
+        // NOTE: pass in a flag to prevent recursive calls from logging
+        matches = matchingElements(elements[i], key, true)
         if (matches.length) break
       }
     }
 
-    if (!matches.length) log('FILL - Warning: no matches found for ' + key);
+    if (!nested && !matches.length) log('FILL - Warning: no matches found for "' + key + '"');
 
     return matches
   }
