@@ -296,6 +296,49 @@ Result:
 </div>
 ```
 
+
+### Global Match (find all matches)
+
+Template:
+
+```html
+<div class="container">
+  <div>
+    <span class="hello"></span>
+  </div>
+  <div>
+    <span class="hello"></span>
+  </div>
+  <span class="hello"></span>
+</div>
+```
+
+Javascript:
+
+```js
+// prefix with a dollar sign to find all matches
+// otherwise it will only find the first one
+var post = {
+  $hello: 'hi'
+};
+
+$('.container').fill(post);
+```
+
+Result:
+
+```html
+<div class="container">
+  <div>
+    <span class="hello">hi</span>
+  </div>
+  <div>
+    <span class="hello">hi</span>
+  </div>
+  <span class="hello">hi</span>
+</div>
+```
+
 ## Development environment
 
 You need node.js 0.6.x and npm.

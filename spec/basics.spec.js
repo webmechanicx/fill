@@ -224,6 +224,98 @@
     });
 
 
+    it("should stop on the first by default", function() {
+      return testFill(
+
+        '<div class="wrapper">\
+          <div class="group1">\
+            <div class="inner"></div>\
+          </div>\
+          <div class="group2">\
+            <div class="inner"></div>\
+          </div>\
+        </div>',
+
+        {
+          inner: 'Monkey'
+        },
+
+        '<div class="wrapper">\
+          <div class="group1">\
+            <div class="inner">Monkey</div>\
+          </div>\
+          <div class="group2">\
+            <div class="inner"></div>\
+          </div>\
+        </div>'
+
+      );
+    });
+
+
+    it("matches all elements when prefixed with a dollar sign", function() {
+      return testFill(
+
+        '<div class="wrapper">\
+          <div class="group1">\
+            <div class="foo"></div>\
+          </div>\
+          <div class="group2">\
+            <div class="foo"></div>\
+          </div>\
+          <div class="foo"></div>\
+        </div>',
+
+        {
+          $foo: 'bar'
+        },
+
+        '<div class="wrapper">\
+          <div class="group1">\
+            <div class="foo">bar</div>\
+          </div>\
+          <div class="group2">\
+            <div class="foo">bar</div>\
+          </div>\
+          <div class="foo">bar</div>\
+        </div>'
+
+      );
+    });
+
+
+
+    it("matches all elements and children when parent is prefixed with a dollar sign", function() {
+      return testFill(
+
+        '<div class="wrapper">\
+          <div class="group">\
+            <div class="thing"></div>\
+          </div>\
+          <div class="group">\
+            <div class="thing"></div>\
+          </div>\
+          <div class="thing">Not this one</div>\
+        </div>',
+
+        {
+          $group: { thing: 'aMaBob' }
+        },
+
+        '<div class="wrapper">\
+          <div class="group">\
+            <div class="thing">aMaBob</div>\
+          </div>\
+          <div class="group">\
+            <div class="thing">aMaBob</div>\
+          </div>\
+          <div class="thing">Not this one</div>\
+        </div>'
+
+      );
+    });
+
+
     it("should work with numeric values", function() {
       return testFill(
 
