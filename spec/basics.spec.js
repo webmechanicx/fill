@@ -102,6 +102,22 @@
     });
 
 
+    it("should fill in a zero value to the html", function() {
+      return testFill(
+
+        '<div class="hello"></div>\
+         <div class="goodbye"></div>',
+
+        {
+          _html: 0
+        },
+
+        '0'
+
+      );
+    });
+
+
     it("should work with null data on a container", function() {
       return testFill(
 
@@ -117,7 +133,7 @@
     });
 
 
-    it("should work with null values", function() {
+    it("should work with missing values", function() {
       return testFill(
 
         '<div class="hello">Hi</div>\
@@ -147,6 +163,24 @@
 
         '<div class="hello">Hello</div>\
          <div class="goodbye"></div>'
+
+      );
+    });
+
+
+    it("should work with zero values", function() {
+      return testFill(
+
+        '<div class="hello">Hi</div>\
+         <div class="goodbye">Bye</div>',
+
+        {
+          hello: 'Hello',
+          goodbye: 0
+        },
+
+        '<div class="hello">Hello</div>\
+         <div class="goodbye">0</div>'
 
       );
     });

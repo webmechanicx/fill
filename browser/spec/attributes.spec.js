@@ -27,6 +27,23 @@
     });
 
 
+    it("will set a zero value into an attribute", function(){
+      return testFill(
+        '\
+          <div class="firstName"></div>\
+        ',
+
+        {
+          firstName: { _id: 0 },
+        },
+
+        '\
+          <div class="firstName" id="0"></div>\
+        '
+      );
+    });
+
+
     it("will set the html with _html", function(){
       return testFill(
         '\

@@ -33,6 +33,24 @@
       );
     });
 
+    it("should fill with zero values", function() {
+      return testFill(
+
+        '<input name="name" type="text" />\
+        <textarea name="resume"></textarea>',
+
+        {
+          name:   0,
+          resume: 0
+        },
+
+        '<input name="name" type="text" value="0" />\
+        <textarea name="resume">0</textarea>'
+
+      );
+    });
+
+
 
     it("should fill values in option elements", function() {
 
