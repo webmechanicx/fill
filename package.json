@@ -29,7 +29,7 @@
                          "jsdom"        : ">=0.2.10"
                       },
   "devDependencies":  {
-                         "jasmine-node" : ">=1.0.x",
+                         "jasmine-node" : ">=1.14.5",
                          "jquery"       : ">=1.6.x",
                          "uglify-js"    : ">=1.2.5"
                       },
