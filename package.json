@@ -22,7 +22,8 @@
                          "Toni Jyrkinen <toni.jyrkinen@leonidasoy.fi>",
                          "Antti Tarvainen <antti.tarvainen@leonidasoy.fi>",
                          "Tomi Laine <tomi.laine@leonidasoy.fi>",
-                         "Mikko Ohtamaa <mikko@opensourcehacker.com>"
+                         "Mikko Ohtamaa <mikko@opensourcehacker.com>",
+                         "Farhadur Rahim <webmechanicx@dozenhack.com>"
                       ],
   "licenses"       :  ["MIT"],
   "dependencies"   :  {
